@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.erik.lab1_3_xml.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hur trivs du på LiU?"
+            android:id="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true" />
+
+        <CheckBox
+            android:text="Bra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxBra"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <CheckBox
+            android:text="Mycket bra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxMycket"
+            android:layout_below="@+id/textView"
+            android:layout_toRightOf="@+id/checkBoxBra" />
+
+        <CheckBox
+            android:text="Jättebra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxJatte"
+            android:layout_below="@+id/textView"
+            android:layout_toRightOf="@+id/checkBoxMycket" />
+
+        <TextView
+            android:text="Läser du på LiU?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/checkBoxMycket"
+            android:id="@+id/textView2"
+            android:layout_centerHorizontal="true"/>
+
+        <CheckBox
+            android:text="Ja"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxJa"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentLeft="true" />
+
+        <CheckBox
+            android:text="Nej"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxNej"
+            android:layout_below="@+id/textView2"
+            android:layout_toRightOf="@+id/checkBoxJa" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logga"
+            android:id="@+id/imageView"
+            android:adjustViewBounds="true"
+            android:layout_below="@+id/checkBoxJa"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="false"
+            android:maxHeight="150dp" />
+
+        <TextView
+            android:text="Är detta LiUs logotyp?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_marginTop="13dp"
+            android:layout_below="@+id/imageView"
+            android:layout_centerHorizontal="true" />
+
+        <CheckBox
+            android:text="Ja"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxJa2"
+            android:layout_below="@+id/textView3"
+            android:layout_alignParentLeft="true" />
+
+        <CheckBox
+            android:text="Nej"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxNej2"
+            android:layout_below="@+id/textView3"
+            android:layout_toRightOf="@+id/checkBoxJa2" />
+
+        e<Button
+            android:text="SICKA IN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:layout_below="@+id/checkBoxJa2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+</RelativeLayout>
