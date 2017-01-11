@@ -14,11 +14,12 @@
         android:id="@+id/serchtext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Skriv textjäveln här"/>
+        android:hint="Search"/>
 
     <ExpandableListView
         android:id="@+id/exp_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/serchtext" />
+        android:layout_below="@+id/serchtext"
+        android:dividerHeight="0.5dp" />
 </RelativeLayout>
