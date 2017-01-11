@@ -1,5 +1,6 @@
 package com.example.erik.lab_2;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
         Exp_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getBaseContext(), Colors_list.get(groupPosition) + " is expanded",
-                        Toast.LENGTH_LONG).show();
                 String path = "/" + Colors_list.get(groupPosition) + "/" ;
                 editText.setText(path);
             }
@@ -49,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
         Exp_list.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
             @Override
             public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getBaseContext(), Colors_list.get(groupPosition) + " is collapsed",
-                        Toast.LENGTH_LONG).show();
-                String path = "/" + Colors_list.get(groupPosition) + "/" ;
+                String path = "/" ;
                 editText.setText(path);
             }
         });
@@ -59,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
         Exp_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(getBaseContext(),
-                        Colors_category.get(Colors_list.get(groupPosition)).get(childPosition) + " from category " +
-                        Colors_list.get(groupPosition) + " is selected ",
-                        Toast.LENGTH_LONG).show();
+                int index = parent.getFlatListPosition(ExpandableListView.getPackedPositionForChild(groupPosition, childPosition));
+                //parent.setItemChecked(index, true);
+
+                Log.d("tag", "childPosition: " + childPosition);
+                //colorAdapter.setSelected(childPosition);
                 String path = "/" + Colors_list.get(groupPosition) + "/" + Colors_category.get(Colors_list.get(groupPosition)).get(childPosition);
                 editText.setText(path);
 
@@ -79,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("")){
-                    searchColor(s.toString());
+                   searchColor(s.toString());
+
                 }
 
             }
@@ -91,14 +90,47 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void searchColor(String textToSearch){
-        for(String item:Colors_list){
-            Log.d("tag", "for loop: " + Colors_category.get(item));
-            if (Colors_category.get(item).contains(textToSearch)){
-                Log.d("tag", "found: " + textToSearch);
+    public boolean searchColor(String textToSearch){
+        int index =0;
+        boolean flag = false;
+        int adapterSize = 0;
+        int falseIterations = 0;
+        for(String category:Colors_list){
+
+            if (Colors_category.get(category).contains(textToSearch)){
+                Exp_list.expandGroup(index);
+                //Exp_list.findViewById(0).setBackgroundColor(Color.GREEN);
+                Exp_list.setItemChecked(6, true);
+                Log.d("tag", "Exp_list: " + index);
+                flag = true;
+                String path = "/" + Colors_list.get(index) + "/" + textToSearch;
+                editText.setText(path);
+            }
+            else{
+                //Log.d("tag", "Colors_category.get(item): " +Colors_category.get(category).size());
+               // Exp_list.setItemChecked(index, false);
+            }
+            index++;
+        }
+
+        Log.d("tag", "contains: " + colorAdapter.getAdapterSize());
+        for(String category:Colors_list){
+            for(int n = 0; n < Colors_category.get(category).size(); n++ ){
+                if (Colors_category.get(category).get(n).contains(textToSearch)) {
+                    editText.setBackgroundColor(Color.WHITE);
+                }
+                else{
+                    falseIterations++;
+                }
+
+            }
+            //if none of the items matched the search text
+            if(falseIterations == colorAdapter.getAdapterSize()){
+                editText.setBackgroundColor(Color.RED);
             }
         }
 
-        colorAdapter.notifyDataSetChanged();
+
+        return flag;
     }
 }

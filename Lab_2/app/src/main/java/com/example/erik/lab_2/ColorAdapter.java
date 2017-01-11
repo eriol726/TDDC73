@@ -1,7 +1,9 @@
 package com.example.erik.lab_2;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ public class ColorAdapter extends BaseExpandableListAdapter {
     private Context Ctx;
     private HashMap<String, List<String>> Colors_category;
     private List<String> Colors_list;
+    private int selectedIndex;
 
     public ColorAdapter(Context ctx, HashMap<String, List<String>> colors_category, List<String> colors_list){
         this.Ctx = ctx;
@@ -87,6 +90,10 @@ public class ColorAdapter extends BaseExpandableListAdapter {
             convertView = inflator.inflate(R.layout.child_layout, parentView, false);
         }
         TextView child_textview = (TextView) convertView.findViewById(R.id.child_txt);
+
+
+        //selectedIndex = -1;
+
         child_textview.setText(child_title);
 
         //returning the view with updated sub-catogries (childs)
@@ -96,5 +103,18 @@ public class ColorAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public void setSelected(int index){
+        selectedIndex = index;
+    }
+
+    public int getAdapterSize(){
+        int adapterSize = 0;
+        for (int i = 0; i < getGroupCount(); i++){
+            adapterSize += getChildrenCount(i);
+
+        }
+        return adapterSize;
     }
 }
