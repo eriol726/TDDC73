@@ -22,6 +22,8 @@ public class ColorAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<String>> Colors_category;
     private List<String> Colors_list;
     private int selectedIndex;
+    private int selectedParentIndex = -1;
+    private int selectedCildIndex = -1;
 
     public ColorAdapter(Context ctx, HashMap<String, List<String>> colors_category, List<String> colors_list){
         this.Ctx = ctx;
@@ -92,6 +94,11 @@ public class ColorAdapter extends BaseExpandableListAdapter {
         TextView child_textview = (TextView) convertView.findViewById(R.id.child_txt);
 
 
+        if(selectedParentIndex == parent && selectedCildIndex == child){
+            child_textview.setBackgroundColor(Color.RED);
+        }else{
+            child_textview.setBackgroundColor(Color.WHITE);
+        }
         //selectedIndex = -1;
 
         child_textview.setText(child_title);
@@ -116,5 +123,15 @@ public class ColorAdapter extends BaseExpandableListAdapter {
 
         }
         return adapterSize;
+    }
+
+    public void setGroupIndex(int parentIndex){
+        selectedParentIndex = parentIndex;
+        notifyDataSetChanged();
+    }
+
+    public void setSelectedChildIndex(int childIndex){
+        selectedCildIndex = childIndex;
+        notifyDataSetChanged();
     }
 }
