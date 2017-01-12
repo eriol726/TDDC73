@@ -95,7 +95,7 @@ public class ColorAdapter extends BaseExpandableListAdapter {
 
 
         if(selectedParentIndex == parent && selectedCildIndex == child){
-            child_textview.setBackgroundColor(Color.RED);
+            child_textview.setBackgroundColor(Color.GRAY);
         }else{
             child_textview.setBackgroundColor(Color.WHITE);
         }
