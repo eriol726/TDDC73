@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         tempTextToSearch = textToSearch;
         tempTextToSearch = tempTextToSearch.substring(1,textToSearch.length());
 
-        /*
+
         String[] textArr = new String[]{};
         textArr = tempTextToSearch.split("/");
 
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         if(textArr.length>1){
             child = textArr[1].toString();
             Log.d("tag", "child: " + child);
-        }*/
+        }
 
 
         Log.d("tag", "parent: " + parent);
@@ -155,9 +155,9 @@ public class MainActivity extends AppCompatActivity {
             }
             // letters in category
             Log.d("tag", "category: " + tempTextToSearch);
-            if (category.contains(tempTextToSearch)  ) {
-                if (category.equals(tempTextToSearch)) {
-                    collapseAll();
+            if (category.contains(parent)  ) {
+                if (category.equals(parent)) {
+                    //collapseAll();
 
                    //Exp_list.expandGroup(Colors_list.indexOf(category));
                    // String path =  "/" + Colors_list.get(categoryIndex) + "/" ;
