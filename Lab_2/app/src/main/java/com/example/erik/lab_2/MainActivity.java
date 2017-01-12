@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         Exp_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                String path = "/" + Colors_list.get(groupPosition) + "/" ;
+                String path =  Colors_list.get(groupPosition) + "/" ;
                 editText.setText(path);
-                editText.setBackgroundColor(Color.WHITE);
+
             }
         });
 
@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 colorAdapter.setSelectedChildIndex(500);
                 //Exp_list.clearChoices();
                 //colorAdapter.notifyDataSetChanged();
-                String path = "/" ;
-                editText.setText(path);
+                // String path = "/" ;
+                // editText.setText(path);
             }
         });
 
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 //colorAdapter.setSelected(childPosition);
                 String path = "/" + Colors_list.get(groupPosition) + "/" + Colors_category.get(Colors_list.get(groupPosition)).get(childPosition);
                 editText.setText(path);
+                editText.setBackgroundColor(Color.WHITE);
                 return false;
             }
         });
@@ -87,11 +88,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("")){
+
                     String str = s.toString();
                    if(searchColor(str) ){
                        editText.setBackgroundColor(Color.WHITE);
                    }
                     else{
+                       //collapseAll();
                        editText.setBackgroundColor(Color.RED);
                    }
                 }
@@ -100,11 +103,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-               /* if(!s.toString().contains("/")){
+                if(!s.toString().contains("/")){
                     editText.setText("/" );
                     Selection.setSelection(editText.getText(), editText.getText().length());
-
-                }*/
+                    Log.d("tag", "after: " );
+                }
             }
         });
     }
@@ -115,24 +118,26 @@ public class MainActivity extends AppCompatActivity {
         int colorIndexTotal = 0;
         boolean flag = false;
         String tempTextToSearch;
-
-
         tempTextToSearch = textToSearch;
+
+        tempTextToSearch = textToSearch.substring(1,textToSearch.length());
             // Log.d("tag", "searchText: " + textToSearch);
         for(String category:Colors_list){
-            if(tempTextToSearch.equals("") || tempTextToSearch.equals("/")){
+            if( tempTextToSearch.equals("/") || tempTextToSearch.equals("")){
+                collapseAll();
                 flag = true;
             }
             // letters in category
-            Log.d("tag", "category: " + textToSearch);
+            Log.d("tag", "category: " + tempTextToSearch);
             if (category.contains(tempTextToSearch)  ) {
                 if (category.equals(tempTextToSearch)) {
-                    Log.d("tag", "word exist in category: " + Colors_list.size());
                     collapseAll();
-                    Exp_list.expandGroup(Colors_list.indexOf(category));
-                    // String path =  tempTextToSearch ;
-                    //editText.setText(path);
 
+                    Exp_list.expandGroup(Colors_list.indexOf(category));
+                    String path =  "/" + Colors_list.get(categoryIndex) + "/" ;
+                   // editText.setText(path);
+                    Log.d("tag", "word exist in category: " + tempTextToSearch);
+                    editText.setSelection(editText.getText().length());
                 }
                 flag = true;
             }
@@ -142,9 +147,11 @@ public class MainActivity extends AppCompatActivity {
                 if (Colors_category.get(category).get(colorIndex).contains(tempTextToSearch)  ) {
                     if(Colors_category.get(category).get(colorIndex).equals(tempTextToSearch)){
                         collapseAll();
+                        Log.d("tag", "word exist in color: " + tempTextToSearch);
                         Exp_list.expandGroup(Colors_list.indexOf(category));
-                        String path =  Colors_list.get(categoryIndex) + "/" + tempTextToSearch;
+                        String path =  "/" + Colors_list.get(categoryIndex) + "/" + tempTextToSearch;
                         editText.setText(path);
+                        editText.setSelection(editText.getText().length());
                         colorAdapter.setGroupIndex(categoryIndex);
                         colorAdapter.setSelectedChildIndex(colorIndex);
                     }
