@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         Exp_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                String path = "/" +Colors_list.get(groupPosition) + "/" ;
+                String path = "/" +Colors_list.get(groupPosition) + "/" +url;
                 editText.setText(path);
                 Log.d("tag", "cant close: " );
             }
@@ -57,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
                 colorAdapter.setSelectedChildIndex(500);
                 //Exp_list.clearChoices();
                 //colorAdapter.notifyDataSetChanged();
-                Log.d("tag", "change: " );
-            //    String path = "/khhjg" ;
-            //    editText.setText(path);
+                //Log.d("tag", "change: " );
+               //String path = "/h" ;
+               //editText.setText(path);
+
 
             }
         });
@@ -110,10 +111,12 @@ public class MainActivity extends AppCompatActivity {
                 if(!s.toString().contains("/")){
                     editText.setText("/" );
                     Selection.setSelection(editText.getText(), editText.getText().length());
-                    Log.d("tag", "after: " );
+
                 }
             }
         });
+
+
     }
 
     public boolean searchColor(String textToSearch){
@@ -159,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 if (category.equals(parent)) {
                     //collapseAll();
 
+
                    //Exp_list.expandGroup(Colors_list.indexOf(category));
                    // String path =  "/" + Colors_list.get(categoryIndex) + "/" ;
                    // editText.setText(path);
@@ -167,25 +171,27 @@ public class MainActivity extends AppCompatActivity {
                 }
                 flag = true;
             }
+            else {
+                for (int colorIndex = 0; colorIndex < Colors_category.get(category).size(); colorIndex++) {
+                    // letters in color
+                    if (Colors_category.get(category).get(colorIndex).contains(tempTextToSearch)) {
+                        if (Colors_category.get(category).get(colorIndex).equals(tempTextToSearch)) {
+                            collapseAll();
+                            Log.d("tag", "word exist in color: " + child);
+                            Exp_list.expandGroup(Colors_list.indexOf(category));
+                            String path = "/" + Colors_list.get(categoryIndex) + "/" + Colors_category.get(category).get(colorIndex);
+                            //url = child+"/";
+                            editText.setText(path);
+                            editText.setSelection(editText.getText().length());
+                            colorAdapter.setGroupIndex(categoryIndex);
+                            colorAdapter.setSelectedChildIndex(colorIndex);
 
-            for(int colorIndex = 0; colorIndex < Colors_category.get(category).size(); colorIndex++ ){
-                // letters in color
-                if (Colors_category.get(category).get(colorIndex).contains(tempTextToSearch)  ) {
-                    if(Colors_category.get(category).get(colorIndex).equals(tempTextToSearch)){
-                        collapseAll();
-                        Log.d("tag", "word exist in color: " + tempTextToSearch);
-                        Exp_list.expandGroup(Colors_list.indexOf(category));
-                        String path =  "/" + Colors_list.get(categoryIndex) + "/" + Colors_category.get(category).get(colorIndex);
-                        editText.setText(path);
-                        editText.setSelection(editText.getText().length());
-                        colorAdapter.setGroupIndex(categoryIndex);
-                        colorAdapter.setSelectedChildIndex(colorIndex);
+                        }
+                        flag = true;
                     }
-                    flag = true;
                 }
-
-
             }
+
             categoryIndex++;
         }
 
