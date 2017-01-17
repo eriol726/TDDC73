@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="InteractiveSearch">
+        <attr name="hint" format="string" />
+    </declare-styleable>
+    <declare-styleable name="CustomListView">
+        <attr name="showText" format="boolean" />
+    </declare-styleable>
+</resources>

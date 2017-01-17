@@ -14,21 +14,21 @@ import android.widget.EditText;
 /**
  * TODO: document your custom view class.
  */
-public class InteractiveSearchView extends EditText {
+public class InteractiveSearch extends EditText {
     private String hint;
 
 
-    public InteractiveSearchView(Context context) {
+    public InteractiveSearch(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public InteractiveSearchView(Context context, AttributeSet attrs) {
+    public InteractiveSearch(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public InteractiveSearchView(Context context, AttributeSet attrs, int defStyle) {
+    public InteractiveSearch(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
     }

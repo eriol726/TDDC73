@@ -1,7 +1,6 @@
 package com.example.erik.lab_3;
 
 import android.os.Bundle;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +11,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import static com.example.erik.lab_3.R.styleable.InteractiveSearchView;
-import static com.example.erik.lab_3.R.styleable.View;
-
 public class MainActivity extends AppCompatActivity {
+    String[] searchContent = {"tja", "hejsan", "a", "b", "c", "d", "e", "f", "g", "h", "i", "a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    String[] searchContent2 = {"NYA STRANGAR", "HEJ SAN"};
+    String prevArray[];
+    CustomListView customListView;
+    InteractiveSearch interactiveSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +25,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        InteractiveSearchView interactiveSearchView = (InteractiveSearchView) findViewById(R.id.filter);
+        customListView = (CustomListView) findViewById(R.id.customListView);
+        interactiveSearch = (InteractiveSearch) findViewById(R.id.searchBar);
+        customListView.populate(searchContent);
+        prevArray = searchContent;
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
-        interactiveSearchView.addTextChangedListener(new TextWatcher() {
+        interactiveSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -43,6 +39,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = s.toString();
+
+                if(prevArray[0].contains("kalle")) {
+                    prevArray = searchContent2;
+                }
+                else{
+                    prevArray = searchContent;
+                }
+
+                customListView.populate(prevArray);
 
             }
 

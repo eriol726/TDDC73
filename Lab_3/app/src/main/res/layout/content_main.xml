@@ -14,9 +14,16 @@
     tools:showIn="@layout/activity_main">
 
 
-    <com.example.erik.lab_3.InteractiveSearchView
-        android:id="@+id/filter"
+    <com.example.erik.lab_3.InteractiveSearch
+        android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Sök för fan" />
+
+    <com.example.erik.lab_3.CustomListView
+        android:id="@+id/customListView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:showText="true"
+        android:layout_below="@+id/searchBar"/>
 </RelativeLayout>
