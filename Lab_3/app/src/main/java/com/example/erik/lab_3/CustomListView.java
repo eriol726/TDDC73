@@ -18,13 +18,14 @@ public class CustomListView extends View {
 
     String[] mData;
 
+
     public CustomListView(Context context, AttributeSet attrs){
         super(context, attrs);
-
+          /*
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.CustomListView,
-                0,0);
+                0,0);*/
 
         init();
 
@@ -58,7 +59,7 @@ public class CustomListView extends View {
                 canvas.drawLine(10.0f, height, width, height, linePaint);
             }
         }
-   
+
     }
 
     public void populate(String[] tempArr){

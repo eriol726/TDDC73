@@ -12,8 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
-    String[] searchContent = {"tja", "hejsan", "a", "b", "c", "d", "e", "f", "g", "h", "i", "a", "b", "c", "d", "e", "f", "g", "h", "i"};
-    String[] searchContent2 = {"NYA STRANGAR", "HEJ SAN"};
+    String[] searchContent = {"kalle", "kaka", "kul", "a", "b", "c", "d", "e", "f", "g", "h", "i", "a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    String[] searchContent2 = {"NYA STRANGAR", "KALLE ANKA"};
     String prevArray[];
     CustomListView customListView;
     InteractiveSearch interactiveSearch;
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         customListView = (CustomListView) findViewById(R.id.customListView);
         interactiveSearch = (InteractiveSearch) findViewById(R.id.searchBar);
+       // new SearchOperation().execute("http://flask-afteach.rhcloud.com/getnames/4/Emm");
         customListView.populate(searchContent);
         prevArray = searchContent;
 
