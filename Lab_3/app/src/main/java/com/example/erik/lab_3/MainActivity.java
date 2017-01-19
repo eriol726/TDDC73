@@ -7,9 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
     String[] searchContent = {"kalle", "kaka", "kul", "a", "b", "c", "d", "e", "f", "g", "h", "i", "a", "b", "c", "d", "e", "f", "g", "h", "i"};
@@ -41,18 +45,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String text = s.toString();
-
-                if(prevArray[0].contains("kalle")) {
-                    prevArray = searchContent2;
-                }
-                else{
-                    prevArray = searchContent;
-                }
-
-                customListView.populate(prevArray);
+                String[] resultArray = new String[0];
+                SearchOperation searchOperation = new SearchOperation(new SearchInterface() {
+                    @Override
+                    public void setResults(JSONArray result) {
+                        try {
+                            prevArray = searchContent;
+                            //resultArray = searchOperation.result.join(",").split(",");
+                            Log.d("tag", "resultArray" + result.join(","));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        customListView.populate(searchContent);
+                    }
+                });
+                searchOperation.execute("http://flask-afteach.rhcloud.com/getnames/4/" + s);
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 

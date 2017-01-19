@@ -3,6 +3,10 @@ package com.example.erik.lab_3;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,12 +14,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static com.example.erik.lab_3.R.id.customListView;
+
 /**
  * Created by Erik on 2017-01-18.
  */
 
 public class SearchOperation extends AsyncTask<String, Void, String> {
 
+    JSONArray result;
+    private SearchInterface holder;
+
+    public SearchOperation(SearchInterface holder){
+        this.holder = holder;
+    }
 
     @Override
     protected String doInBackground(String... params) {
@@ -49,6 +61,27 @@ public class SearchOperation extends AsyncTask<String, Void, String> {
             }
         }
 
-        return null;
+        return strFileContents;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+
+        super.onPostExecute(s);
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(s);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        try{
+            Log.d("Tag", "JSONObj: " + jsonObject.get("result"));
+            result = jsonObject.getJSONArray("result");
+            holder.setResults(result);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 }
