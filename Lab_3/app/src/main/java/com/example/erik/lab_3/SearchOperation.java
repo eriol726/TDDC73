@@ -47,7 +47,7 @@ public class SearchOperation extends AsyncTask<String, Void, String> {
 
             while((bytesRead = in.read(contents)) != -1){
                 strFileContents += new String(contents,0,bytesRead);
-                Log.d("tag", "String: " + strFileContents);
+                //Log.d("tag", "String: " + strFileContents);
             }
 
             in.close();
@@ -69,13 +69,9 @@ public class SearchOperation extends AsyncTask<String, Void, String> {
 
         super.onPostExecute(s);
         JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(s);
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
 
         try{
+            jsonObject = new JSONObject(s);
             Log.d("Tag", "JSONObj: " + jsonObject.get("result"));
             result = jsonObject.getJSONArray("result");
             listener.setResults(result);

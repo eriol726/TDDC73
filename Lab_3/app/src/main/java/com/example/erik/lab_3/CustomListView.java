@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Erik on 2017-01-17.
@@ -28,7 +29,7 @@ public class CustomListView extends View {
 
     private boolean isTouch = false;
 
-    ArrayList resultArray = new ArrayList();
+    List<ItemInfo> itemArray = new ArrayList();
 
     String[] mData;
 
@@ -68,16 +69,26 @@ public class CustomListView extends View {
         super.onDraw(canvas);
         int itemHeight = 100;
         float width = 1000.0f;
+        float nextLineHeight = 0;
+        float firstLineHeight = 0;
+
+        itemArray.clear();
 
         for (int i = 0; i < mData.length; i++){
             String name = mData[i];
-            resultArray.add(name);
-            float height = i * itemHeight;
-            canvas.drawRect(0,height,width,height + itemHeight, backgroundPaint);
-            canvas.drawText(name,0,height+itemHeight-20,textPaint);
+
+            firstLineHeight = i*itemHeight;
+            nextLineHeight = firstLineHeight + itemHeight;
+
+            ItemInfo itemInfo = new ItemInfo(i,name,firstLineHeight,nextLineHeight);
+            itemArray.add(itemInfo);
+
+            canvas.drawRect(0.0f,firstLineHeight,width,nextLineHeight, backgroundPaint);
+            canvas.drawText(name,0,nextLineHeight-20,textPaint);
 
             if(i>0){
-                canvas.drawLine(10.0f, height, width, height, linePaint);
+                canvas.drawLine(0.0f, 0.0f, width, 0.0f, linePaint);
+                canvas.drawLine(0.0f, firstLineHeight, width, firstLineHeight, linePaint);
             }
         }
 
@@ -97,12 +108,17 @@ public class CustomListView extends View {
 
         switch (eventaction) {
             case MotionEvent.ACTION_DOWN:
-                if(Y < 90 && X > 10){
-                   mlistener.setSelected(resultArray.get(0).toString());
-                    Log.d("tag", "Name: " + resultArray.get(0));
+
+                for (int i = 0; i < mData.length; i++ ){
+
+                    if(itemArray.get(i).minY < Y && itemArray.get(i).maxY > Y){
+                        mlistener.setSelected(itemArray.get(i).name.toString());
+                        Log.d("tag", "Name: " + itemArray.get(i).name);
+                    }
+
+                    isTouch = true;
                 }
 
-                isTouch = true;
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -115,5 +131,20 @@ public class CustomListView extends View {
         }
 
         return true;
+    }
+}
+
+
+class ItemInfo {
+    public int id;
+    public String name;
+    public float minY, maxY;
+
+    public ItemInfo(int id, String name, float minY, float maxY){
+        this.id = id;
+        this.name = name;
+        this.minY = minY;
+        this.maxY = maxY;
+
     }
 }

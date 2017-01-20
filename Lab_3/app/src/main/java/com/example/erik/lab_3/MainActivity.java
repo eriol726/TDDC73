@@ -30,7 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
         customListView = (CustomListView) findViewById(R.id.customListView);
         interactiveSearch = (InteractiveSearch) findViewById(R.id.searchBar);
-       // new SearchOperation().execute("http://flask-afteach.rhcloud.com/getnames/4/Emm");
+
+        //searchContent =
+
+
+
         customListView.populate(searchContent);
 
         customListView.selected(new SelectIntreface() {
@@ -43,32 +47,29 @@ public class MainActivity extends AppCompatActivity {
         interactiveSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                //SearchOperation searchOperation = new SearchOperation();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if(s.length() > 0){
-                    SearchOperation searchOperation = new SearchOperation(new SearchInterface() {
-                        @Override
-                        public void setResults(JSONArray result) {
-                            try {
+                SearchOperation searchOperation = new SearchOperation(new SearchInterface() {
+                    @Override
+                    public void setResults(JSONArray result) {
+                        try {
 
-                                String[] resultArray = result.join(",").replaceAll("\"","").split(",");
-                                Log.d("tag", "resultArray: " + resultArray[0]);
-                                customListView.populate(resultArray);
+                            String[] resultArray = result.join(",").replaceAll("\"","").split(",");
+                            Log.d("tag", "resultArray: " + resultArray[0]);
+                            customListView.populate(resultArray);
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
 
-                    });
-                    searchOperation.execute("http://flask-afteach.rhcloud.com/getnames/4/" + s);
-                }
+                    }
 
+                });
+                searchOperation.execute("http://flask-afteach.rhcloud.com/getnames/4/" + s);
 
             }
             @Override
