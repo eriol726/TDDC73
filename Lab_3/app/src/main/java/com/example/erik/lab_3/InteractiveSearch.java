@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -34,8 +35,13 @@ public class InteractiveSearch extends EditText {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        // Load attributes
 
+
+    }
+
+    public void setSelectedItem(String s){
+
+        this.setText(s);
     }
 
 }

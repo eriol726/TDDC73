@@ -16,8 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
-    String[] searchContent = {"kalle", "kaka", "kul", "a", "b", "c", "d", "e", "f", "g", "h", "i", "a", "b", "c", "d", "e", "f", "g", "h", "i"};
-    String[] searchContent2 = {"NYA STRANGAR", "KALLE ANKA"};
+    String[] searchContent = {"start"};
     String prevArray[];
     CustomListView customListView;
     InteractiveSearch interactiveSearch;
@@ -33,8 +32,13 @@ public class MainActivity extends AppCompatActivity {
         interactiveSearch = (InteractiveSearch) findViewById(R.id.searchBar);
        // new SearchOperation().execute("http://flask-afteach.rhcloud.com/getnames/4/Emm");
         customListView.populate(searchContent);
-        prevArray = searchContent;
 
+        customListView.selected(new SelectIntreface() {
+            @Override
+            public void setSelected(String item) {
+                interactiveSearch.setSelectedItem(item);
+            }
+        });
 
         interactiveSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -44,22 +48,27 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String text = s.toString();
-                String[] resultArray = new String[0];
-                SearchOperation searchOperation = new SearchOperation(new SearchInterface() {
-                    @Override
-                    public void setResults(JSONArray result) {
-                        try {
-                            prevArray = searchContent;
-                            //resultArray = searchOperation.result.join(",").split(",");
-                            Log.d("tag", "resultArray" + result.join(","));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
+                if(s.length() > 0){
+                    SearchOperation searchOperation = new SearchOperation(new SearchInterface() {
+                        @Override
+                        public void setResults(JSONArray result) {
+                            try {
+
+                                String[] resultArray = result.join(",").replaceAll("\"","").split(",");
+                                Log.d("tag", "resultArray: " + resultArray[0]);
+                                customListView.populate(resultArray);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
-                        customListView.populate(searchContent);
-                    }
-                });
-                searchOperation.execute("http://flask-afteach.rhcloud.com/getnames/4/" + s);
+
+                    });
+                    searchOperation.execute("http://flask-afteach.rhcloud.com/getnames/4/" + s);
+                }
+
 
             }
             @Override

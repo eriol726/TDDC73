@@ -23,10 +23,10 @@ import static com.example.erik.lab_3.R.id.customListView;
 public class SearchOperation extends AsyncTask<String, Void, String> {
 
     JSONArray result;
-    private SearchInterface holder;
+    private SearchInterface listener;
 
-    public SearchOperation(SearchInterface holder){
-        this.holder = holder;
+    public SearchOperation(SearchInterface listener){
+        this.listener = listener;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class SearchOperation extends AsyncTask<String, Void, String> {
         try{
             Log.d("Tag", "JSONObj: " + jsonObject.get("result"));
             result = jsonObject.getJSONArray("result");
-            holder.setResults(result);
+            listener.setResults(result);
 
         }catch (JSONException e){
             e.printStackTrace();
