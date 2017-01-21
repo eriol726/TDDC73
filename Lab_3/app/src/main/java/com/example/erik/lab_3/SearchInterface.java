@@ -1,6 +1,7 @@
 package com.example.erik.lab_3;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -9,5 +10,5 @@ import java.util.ArrayList;
  */
 
 public interface SearchInterface {
-    public void setResults(JSONArray result);
+    public void setResults(JSONObject result);
 }

@@ -27,11 +27,15 @@ public class CustomListView extends View {
 
     private SelectIntreface mlistener;
 
+    private boolean listSizeChanged = false;
+
     private boolean isTouch = false;
 
+    ArrayList resultArray = new ArrayList();
     List<ItemInfo> itemArray = new ArrayList();
 
-    String[] mData;
+    String[] mData = {};
+    private int listSize = 2;
 
     public void selected(SelectIntreface listener){
          mlistener = listener;
@@ -41,16 +45,18 @@ public class CustomListView extends View {
     public CustomListView(Context context, AttributeSet attrs){
         super(context, attrs);
 
-
-          /*
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.CustomListView,
-                0,0);*/
-
         init();
+    }
 
+    public int setN(String N){
+        if(N.equals("")){
+            listSize = 0;
+        }
+        else{
+            listSize = Integer.parseInt(N);
+        }
 
+        return listSize;
     }
 
     private void init(){
@@ -72,11 +78,24 @@ public class CustomListView extends View {
         float nextLineHeight = 0;
         float firstLineHeight = 0;
 
+        Log.d("tag", "listSize before: " + listSize );
+        if(listSize != 0 && listSize<mData.length){
+            listSize = listSize;
+        }
+        else if(listSize>mData.length){
+            listSize = mData.length;
+        }
+        else{
+            listSize = mData.length;
+        }
         itemArray.clear();
 
-        for (int i = 0; i < mData.length; i++){
+        Log.d("tag", "listSize after: " + listSize );
+        Log.d("tag", "mData.length: " + mData.length );
+        for (int i = 0; i < listSize; i++){
             String name = mData[i];
 
+            resultArray.add(name);
             firstLineHeight = i*itemHeight;
             nextLineHeight = firstLineHeight + itemHeight;
 
@@ -91,6 +110,7 @@ public class CustomListView extends View {
                 canvas.drawLine(0.0f, firstLineHeight, width, firstLineHeight, linePaint);
             }
         }
+
 
     }
 
@@ -109,11 +129,11 @@ public class CustomListView extends View {
         switch (eventaction) {
             case MotionEvent.ACTION_DOWN:
 
-                for (int i = 0; i < mData.length; i++ ){
+                for (int i = 0; i < listSize; i++ ){
 
                     if(itemArray.get(i).minY < Y && itemArray.get(i).maxY > Y){
                         mlistener.setSelected(itemArray.get(i).name.toString());
-                        Log.d("tag", "Name: " + itemArray.get(i).name);
+                       // Log.d("tag", "Name: " + itemArray.get(i).name);
                     }
 
                     isTouch = true;
