@@ -1,5 +1,5 @@
 <?php
-    $con = mysqli_connect("localhost", "id646804_eriol726", "kotten11", "id646804_accountdb");
+    $con = mysqli_connect("localhost", "id646804_eriol726", "abcd1234", "id646804_accountdb");
     
     $name = $_POST["name"];
     $age = $_POST["age"];
@@ -7,7 +7,7 @@
     $password = $_POST["password"];
 
     $statement = mysqli_prepare($con, "INSERT INTO user (name, username, age, password) VALUES (?, ?, ?, ?)");
-    mysqli_stmt_bind_param($statement, "siss", $name, $username, $age, $password);
+    mysqli_stmt_bind_param($statement, "ssis", $name, $username, $age, $password);
     mysqli_stmt_execute($statement);
     
     $response = array();
