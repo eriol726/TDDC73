@@ -22,6 +22,11 @@ import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
+    boolean upperLetter = false;
+    boolean lowerLetter = false;
+    boolean number = false;
+    boolean specialLetter = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +92,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkPasswordStrength(s.toString());
+                if(!s.toString().equals("")){
+                    checkPasswordStrength(s.toString());
+                }
+
             }
 
             @Override
@@ -103,45 +111,61 @@ public class RegisterActivity extends AppCompatActivity {
         String specialCharacter = "!£$%&_@#?";
         int passwordScore = 0;
 
-        String lastChar = password.substring(password.length() - 1);
+        Log.d("tag", password);
 
-        for(int i =0; i<password.length();i++){
-            if(specialCharacter.indexOf(password.charAt(i)) > -1 ){
-                passwordScore+=20;
-            }
-        }
+        String currentChar = password.substring(password.length() - 1);
 
-        /*
-        for(char alphabet = 'a'; alphabet <= 'z';alphabet++) {
-            if(password.contains(Character.toString(alphabet))){
-                passwordScore+=20;
-            }
-        }
+        //check if password contains special character
+        if(!currentChar.matches("[A-Za-z1-9][^.]*")){
+            Log.d("tag", "found");
 
-        for(char alphabet = 'A'; alphabet <= 'Z';alphabet++) {
-            if(password.contains(Character.toString(alphabet))){
-                passwordScore+=20;
-            }
-        }*/
-
-        for(int i = 0; i < 9; i++){
-            if(password.contains(Integer.toString(i))){
-                passwordScore+=20;
-            }
-        }
-
-        if(password.length() >= 8){
-            progressBar.setProgress(2);
-            progressBar.getProgressDrawable().setColorFilter(
-                    Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
             passwordScore+=20;
         }
 
-        if(passwordScore>100){
-            progressBar.setProgress(20);
+
+        if(!password.equals(password.toLowerCase()) ){
+            passwordScore+=20;
+        }
+
+
+
+        if(!password.equals(password.toUpperCase()) ){
+            passwordScore+=20;
+        }
+
+
+        if(password.matches(".*\\d+.*")){
+            passwordScore+=20;
+        }
+
+        if(password.length() >= 8){
+            passwordScore+=20;
+        }
+
+
+
+        if(passwordScore>=100){
+            progressBar.setProgress(4);
+            progressBar.getProgressDrawable().setColorFilter(
+                    Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        else if(passwordScore>=80){
+            Log.d("tag", "80p: " );
+            progressBar.setProgress(3);
+            progressBar.getProgressDrawable().setColorFilter(
+                    Color.YELLOW, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        else if(passwordScore>=60){
+            progressBar.setProgress(2);
+            progressBar.getProgressDrawable().setColorFilter(
+                    Color.MAGENTA, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        if(passwordScore<60){
+            progressBar.setProgress(1);
             progressBar.getProgressDrawable().setColorFilter(
                     Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
         }
+
 
         Log.d("tag", "Score: " + passwordScore);
 
