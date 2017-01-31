@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 public class RegisterActivity extends AppCompatActivity {
     ProgressBar progressBar;
     TextView strengthText;
+    int passwordScore = 0;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -58,7 +60,14 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String name = editName.getText().toString();
                 final String username = editUsername.getText().toString();
-                final int age = Integer.parseInt(editAge.getText().toString());
+                final int age;
+                if(editAge.getText().length() > 0){
+                    age = Integer.parseInt(editAge.getText().toString());
+                }
+                else{
+                    age = 0;
+                }
+
                 final String password = editPassword.getText().toString();
 
                 //create a request
@@ -71,11 +80,39 @@ public class RegisterActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
+                            boolean usernameExist = false;
+                            boolean fieldIsEmpty = false;
+                            boolean weakPassword = false;
+                            usernameExist = jsonResponse.getBoolean("usernameExist");
+                            fieldIsEmpty = jsonResponse.getBoolean("fieldEmpty");
+                            weakPassword = jsonResponse.getBoolean("weakPassword");
 
-                            if (success) {
+                            Log.d("tag", "Username exist: " + usernameExist);
+
+                            if (success && passwordScore >= 40 && !usernameExist) {
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                Log.d("tag", "tries to register");
                                 RegisterActivity.this.startActivity(intent);
-                            } else {
+                                Toast.makeText(getApplicationContext(), "User is registered",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            else if (usernameExist){
+                                Log.d("tag", "Username exist");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                                builder.setMessage("Username exist")
+                                        .setNegativeButton("Retry", null)
+                                        .create()
+                                        .show();
+                            }
+                            else if (weakPassword){
+                                Log.d("tag", "Some field is empty");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                                builder.setMessage("Password is too waek")
+                                        .setNegativeButton("Retry", null)
+                                        .create()
+                                        .show();
+                            }
+                            else {
                                 //create error message
                                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                                 builder.setMessage("Register faild")
@@ -85,12 +122,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                             }
                         } catch (JSONException e) {
+                            Log.d("tag", "registartion error");
                             e.printStackTrace();
                         }
                     }
                 };
 
-                RegisterRequest registerRequest = new RegisterRequest(name, username, age, password, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest(name, username, age, password, passwordScore, responseListener);
                 RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
                 requestQueue.add(registerRequest);
             }
@@ -129,8 +167,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     void checkPasswordStrength(String password) {
-        String specialCharacter = "!£$%&_@#?";
-        int passwordScore = 0;
+
+        passwordScore = 0;
 
         Log.d("tag", password);
 
@@ -187,7 +225,7 @@ public class RegisterActivity extends AppCompatActivity {
             progressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
 
         }
-       
+
 
 
         Log.d("tag", "Score: " + passwordScore);

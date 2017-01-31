@@ -13,18 +13,20 @@ import java.util.Map;
  */
 
 public class RegisterRequest extends StringRequest{
-    private static final String REGISTER_REQUEST_URL = "http://accountregistration.000webhostapp.com/Register.php";
+    private static final String REGISTER_REQUEST_URL = "http://192.168.0.102/accountActivation/Register.php";
+    //private static final String REGISTER_REQUEST_URL = "http://accountregistration.000webhostapp.com/Register.php";
     private Map<String, String> params;
 
-    public RegisterRequest(String name, String username, int age, String password, Response.Listener<String> listener){
+    public RegisterRequest(String name, String username, int age, String password, int passwordscore, Response.Listener<String> listener){
         //send data to php
         super(Method.POST, REGISTER_REQUEST_URL, listener, null);
         params = new HashMap<>();
-        //pust the datat to the hashMap
-        Log.d("tag", "Username: " + username);
+        //put the data to the hashMap
+        Log.d("tag", "passwordScore: " + passwordscore);
         params.put("name", name);
         params.put("username", username);
         params.put("password", password);
+        params.put("passwordScore", passwordscore + "");
         params.put("age", age + "");
     }
 
