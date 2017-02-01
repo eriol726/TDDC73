@@ -58,17 +58,17 @@ public class RegisterActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String name = editName.getText().toString();
-                final String username = editUsername.getText().toString();
+                final String name = editName.getText().toString().trim();
+                final String username = editUsername.getText().toString().trim();
                 final int age;
                 if(editAge.getText().length() > 0){
-                    age = Integer.parseInt(editAge.getText().toString());
+                    age = Integer.parseInt(editAge.getText().toString().trim());
                 }
                 else{
                     age = 0;
                 }
 
-                final String password = editPassword.getText().toString();
+                final String password = editPassword.getText().toString().trim();
 
                 //create a request
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             if (success && passwordScore >= 40 && !usernameExist) {
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                Log.d("tag", "tries to register");
+                                Log.d("tag", "Register ok!");
                                 RegisterActivity.this.startActivity(intent);
                                 Toast.makeText(getApplicationContext(), "User is registered",
                                         Toast.LENGTH_LONG).show();
@@ -105,9 +105,17 @@ public class RegisterActivity extends AppCompatActivity {
                                         .show();
                             }
                             else if (weakPassword){
-                                Log.d("tag", "Some field is empty");
+                                Log.d("tag", "Password is too waek");
                                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                                 builder.setMessage("Password is too waek")
+                                        .setNegativeButton("Retry", null)
+                                        .create()
+                                        .show();
+                            }
+                            else if (fieldIsEmpty){
+                                Log.d("tag", "Some field is empty");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                                builder.setMessage("Some field is empty")
                                         .setNegativeButton("Retry", null)
                                         .create()
                                         .show();
