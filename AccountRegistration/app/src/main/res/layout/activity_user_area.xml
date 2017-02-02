@@ -29,9 +29,10 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
         android:id="@+id/textView2"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textStyle="normal|bold" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -51,9 +52,10 @@
         android:id="@+id/textView3"
         android:layout_below="@+id/editUsername"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textStyle="normal|bold" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -65,4 +67,16 @@
         android:layout_marginTop="12dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Log Out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editAge"
+        android:layout_marginTop="22dp"
+        android:id="@+id/buttonLogout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

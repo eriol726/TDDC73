@@ -1,5 +1,5 @@
 <?php
-    $con = mysqli_connect("localhost", "id646804_eriol726", "abcd1234", "id646804_accountdb");
+    $con = mysqli_connect("localhost", "id646804_eriol726", "abcd1234", "id646804_accountdb") or die('Unable to Connect');
     
     $username = $_POST["username"];
     $password = $_POST["password"];
