@@ -91,7 +91,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void nextImageAction(ActionEvent event) {
         imageView.setRotate(imageView.getRotate()*0);
-        
+        restImageScale();
+                
         currentIndex++;
         if( (currentIndex % 4) == 0 ){
             currentIndex = 0;
@@ -104,7 +105,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void prevImageAction(ActionEvent event) {
         imageView.setRotate(imageView.getRotate()*0);
-
+        restImageScale();
+        
         if(currentIndex>0){
             currentIndex--;
         }
@@ -114,6 +116,11 @@ public class FXMLDocumentController implements Initializable {
 
         imageView.setImage(images.get(currentIndex));
         label.setText("Image: " + (currentIndex + 1));
+    }
+    
+    void restImageScale(){
+        imageView.setScaleX(1.0);
+        imageView.setScaleY(1.0);
     }
     
     @Override
@@ -149,6 +156,7 @@ public class FXMLDocumentController implements Initializable {
         vbox.setSpacing(20);
 
         dialogStage.setScene(new Scene(vbox));
+        dialogStage.setAlwaysOnTop(true);
     }    
     
 }
