@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
         formFactory.addTextField("Username");
         formFactory.addTextField("Name");
-        formFactory.addTextField("balle");
+        formFactory.addTextField("Age");
+        formFactory.addPasswordFiled("Password");
+        formFactory.addSubmitButton("Submit");
     }
 }
