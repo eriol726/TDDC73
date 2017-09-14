@@ -1,4 +1,4 @@
-package com.example.erik.accountregistration2;
+package com.example.erik.accountregistration2.Algorithm;
 
 import android.util.Log;
 
@@ -6,9 +6,14 @@ import android.util.Log;
  * Created by Erik on 2017-02-09.
  */
 
-public class PasswordAlgorithm implements PasswordInterface {
+public class PasswordAlgorithm implements FieldAlgorithmInterface {
     @Override
-    public int calculateScore(String password) {
+    public boolean checkField(String fieldText) {
+        return false;
+    }
+
+    @Override
+    public int getPasswordScore(String password) {
         int passwordScore = 0;
         if (!password.matches("[a-zA-Z1-9.? ]*")) {
             Log.d("tag", "found");

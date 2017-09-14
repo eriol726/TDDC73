@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,12 +27,14 @@ public class FormFactory extends LinearLayout {
     LinearLayout formLinearLayout;
     Button submitButton;
     EditText textView;
+    FieldAdapter fieldAdapter;
+    boolean active = false;
 
 
 
     private ArrayList<EditText> textFileds;
     int passwordScore = 0;
-    private PasswordHolder ps;
+    private PasswordStrengthBar ps;
 
 
     public FormFactory(Context context) {
@@ -54,7 +55,9 @@ public class FormFactory extends LinearLayout {
 
         textFileds = new ArrayList<EditText>();
 
-        ps = new PasswordHolder(getContext());
+        ps = new PasswordStrengthBar(getContext());
+
+        fieldAdapter = new FieldAdapter(context);
 
       /*  formLinearLayout = new LinearLayout(getContext());
 
@@ -75,6 +78,19 @@ public class FormFactory extends LinearLayout {
 
     public void addTextField(String fieldName){
 
+        setTextView(fieldName);
+
+
+    }
+    public void addAge(String fieldName, boolean activeParam){
+        active = activeParam;
+        setTextView(fieldName);
+
+
+    }
+
+
+    public void setTextView(String fieldName){
         textView = new EditText(getContext());
         textView.setHint(fieldName);
         LinearLayout.LayoutParams fieldLabellp = new LinearLayout.LayoutParams(
@@ -98,7 +114,7 @@ public class FormFactory extends LinearLayout {
 
 
         textFileds.add(textView);
-
+        fieldAdapter.addFiled(textView);
     }
 
     public void addSubmitButton(String buttonLabel){
@@ -114,39 +130,59 @@ public class FormFactory extends LinearLayout {
         });
 
         formLinearLayout.addView(submitButton);
+        fieldAdapter.addFiled(submitButton);
     }
 
 
 
 
     public void addPasswordFiled(String hint){
-        PasswordHolder passwordHolder = new PasswordHolder(getContext());
+        PasswordStrengthBar passwordHolder = new PasswordStrengthBar(getContext());
         Log.d("tag", "init password field 1");
         passwordHolder.addPasswordFieldText(hint);
 
         formLinearLayout.addView(passwordHolder);
+        fieldAdapter.addFiled(passwordHolder);
 
     }
 
     public void fieldValidation(){
 
         passwordScore = ps.getPasswordScore();
-        boolean usernameIsBlank = textView.getText().toString().equals("");
 
-        if (passwordScore >= 40 && !usernameIsBlank) {
+        boolean blankFields = false;
+
+        //check if some field is blank
+        for(int i = 0; i < textFileds.size(); i++){
+            if(textFileds.get(i).getText().toString().equals("")){
+                Log.d("tag", "Label: " + textFileds.get(i).getHint());
+                blankFields = true;
+            }
+        }
+        //boolean usernameIsBlank = textView.getText().toString().equals("");
+
+        Context c = getContext();
+
+        //MainActivity main = new MainActivity();
+        //Log.d("tag",  "field" + main.formFactory.getChildAt(0));
+
+        if (passwordScore >= 40 && !blankFields) {
             //Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             Log.d("tag", "Register ok!");
             //RegisterActivity.this.startActivity(intent);
             Toast.makeText(getContext(), "User is registered",
                     Toast.LENGTH_LONG).show();
         }
-        else if (usernameIsBlank){
+        else if (blankFields){
             Log.d("tag", "Some field is blank");
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Some field is blank")
                     .setNegativeButton("Retry", null)
                     .create()
                     .show();
+        }
+        else if(!textFileds.get(3).getText().toString().matches("[0-9]+") && active){
+            Log.d("tag", "age must be numbers");
         }
         else if ( ps.getPasswordScore() < 40 ){
             Log.d("tag", "Passwordscore: " + ps.getPasswordScore());
@@ -156,6 +192,7 @@ public class FormFactory extends LinearLayout {
                     .create()
                     .show();
         }
+
         else {
             //create error message
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -168,4 +205,7 @@ public class FormFactory extends LinearLayout {
     }
 
 
+    public void setAdapter(FieldAdapter fields) {
+        fieldAdapter = fields;
+    }
 }

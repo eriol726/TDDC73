@@ -15,13 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.io.IOException;
+import com.example.erik.accountregistration2.Algorithm.PasswordAlgorithm;
 
 /**
  * Created by Erik on 2017-02-04.
  */
 
-public class PasswordHolder extends LinearLayout{
+public class PasswordStrengthBar extends LinearLayout{
     ProgressBar progressBar;
     TextView strengthText;
     EditText editPassword;
@@ -29,17 +29,17 @@ public class PasswordHolder extends LinearLayout{
     static int passwordScore = 0;
 
 
-    public PasswordHolder(Context context) {
+    public PasswordStrengthBar(Context context) {
         super(context);
         init(context);
     }
 
-    public PasswordHolder(Context context, AttributeSet attrs) {
+    public PasswordStrengthBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public PasswordHolder(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PasswordStrengthBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -94,7 +94,7 @@ public class PasswordHolder extends LinearLayout{
         progressBar.setScaleY(3f);
         progressBar.setProgressBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
 
-        passwordScore = passwordAlgorithm.calculateScore(password);
+        passwordScore = passwordAlgorithm.getPasswordScore(password);
 
         Log.d("tag", "passwordScore: " + passwordScore);
         if (passwordScore >= 100) {
@@ -115,7 +115,7 @@ public class PasswordHolder extends LinearLayout{
             progressBar.setProgress(1);
             progressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
         }
-        
+
 
         Log.d("tag", "Score: " + passwordScore);
         Log.d("tag", "password: " + password);

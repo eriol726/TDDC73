@@ -1,29 +1,34 @@
 package com.example.erik.accountregistration2;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    FieldAdapter fieldAdapter = new FieldAdapter();
+    FieldAdapter fieldAdapter ;
+    FormFactory formFactory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FormFactory formFactory = (FormFactory) findViewById(R.id.FormFactory);
+        formFactory = (FormFactory) findViewById(R.id.FormFactory);
 
-        List<FieldAdapter> params = new ArrayList<FieldAdapter>();
+
+        fieldAdapter = new FieldAdapter(this);
 
         formFactory.addTextField("Username");
         formFactory.addTextField("Name");
-        formFactory.addTextField("Age");
+        formFactory.addTextField("Email");
+        formFactory.addAge("Age", true);
         formFactory.addPasswordFiled("Password");
         formFactory.addSubmitButton("Submit");
 
-        //fieldAdapter.put()
+        //passing a new adapter to formFactory class that can hold all the fields
+        formFactory.setAdapter(fieldAdapter);
+
+
+
+
     }
 }
