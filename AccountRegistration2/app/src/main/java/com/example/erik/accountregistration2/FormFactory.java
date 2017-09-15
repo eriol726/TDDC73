@@ -16,6 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.erik.accountregistration2.Algorithm.AlgorithmFactory;
+import com.example.erik.accountregistration2.Algorithm.FieldAlgorithmInterface;
+
 import java.util.ArrayList;
 
 /**
@@ -77,6 +80,12 @@ public class FormFactory extends LinearLayout {
     }
 
     public void addTextField(String fieldName){
+
+        AlgorithmFactory algorithmFactory = new AlgorithmFactory();
+
+        FieldAlgorithmInterface fieldAlgorithmInterface = algorithmFactory.getAlgorithm(fieldName);
+
+        fieldAlgorithmInterface.checkField()
 
         setTextView(fieldName);
 

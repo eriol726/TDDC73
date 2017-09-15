@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
 
         formFactory = (FormFactory) findViewById(R.id.FormFactory);
 
-
         fieldAdapter = new FieldAdapter(this);
 
         formFactory.addTextField("Username");
