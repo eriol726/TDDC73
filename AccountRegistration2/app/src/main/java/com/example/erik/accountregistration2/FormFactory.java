@@ -1,22 +1,18 @@
 package com.example.erik.accountregistration2;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Erik on 2017-02-03.
@@ -24,54 +20,79 @@ import java.util.ArrayList;
 
 public class FormFactory extends LinearLayout {
 
+    Context context;
     LinearLayout formLinearLayout;
     Button submitButton;
     EditText textView;
     FieldAdapter fieldAdapter;
     boolean active = false;
 
+    List<TextView> textViewList;
+    List<LayoutParams> layoutTextViewList;
+    List<LayoutParams> layoutEditTextList;
+    List<LayoutParams> layoutFeedbackList;
 
+    List<InteractiveField> interactiveFields;
+    List<AccountParameter> params;
 
     private ArrayList<EditText> textFileds;
     int passwordScore = 0;
-    private PasswordStrengthBar ps;
+    private InteractiveField interactiveField;
 
 
-    public FormFactory(Context context) {
-        super(context);
-        init(context);
+    public FormFactory(Context theContext, List<AccountParameter> theAccountParameters) {
+
+        super(theContext);
+        Log.d("tag", "first constructor");
+        params = new ArrayList<AccountParameter>();
+        params = theAccountParameters;
+
+        init();
     }
 
     public FormFactory(Context context, AttributeSet attrs) {
+
         super(context, attrs);
-        init(context);
+        Log.d("tag", "second constructor");
+        init();
     }
 
     public FormFactory(Context context, AttributeSet attrs, int defStyleAttr) {
+
         super(context, attrs, defStyleAttr);
+
+        init();
     }
 
-    public void init(Context context){
+
+    public void init(){
+
+        textViewList = new ArrayList<TextView>();
+        //interactiveField = new InteractiveField(context);
+        layoutTextViewList = new ArrayList<LayoutParams>();
+        layoutEditTextList = new ArrayList<LayoutParams>();
+        interactiveFields = new ArrayList<InteractiveField>();
 
         textFileds = new ArrayList<EditText>();
 
-        ps = new PasswordStrengthBar(getContext());
+
 
         fieldAdapter = new FieldAdapter(context);
 
-      /*  formLinearLayout = new LinearLayout(getContext());
-
-        RelativeLayout.LayoutParams linearLayoutParam = new RelativeLayout.LayoutParams(
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.WRAP_CONTENT);
-
-        formLinearLayout.setLayoutParams(linearLayoutParam);
-
-        linearLayoutParam.addRule(RelativeLayout.BELOW, formLinearLayout.getId());*/
 
 
-        formLinearLayout = (LinearLayout)findViewById(R.id.FormFactory);
-        formLinearLayout.setOrientation(LinearLayout.VERTICAL);
+        for (int i = 0; i < params.size(); i++)
+        {
+            //textViewList.add(new TextView(context));
+            //textViewList.get(i).setText(params.get(i).getName());
+            //interactiveField = new InteractiveField(context, params.get(i));
+            //interactiveFields.add(new InteractiveField(context, params.get(i)));
+            setTextView(params.get(i).getName());
+
+        }
+
+   //    formLinearLayout = (LinearLayout)findViewById(R.id.FormFactory);
+  //     formLinearLayout.setOrientation(LinearLayout.VERTICAL);
 
 
     }
@@ -113,8 +134,8 @@ public class FormFactory extends LinearLayout {
         formLinearLayout.addView(linearLayoutHorizontal);
 
 
-        textFileds.add(textView);
-        fieldAdapter.addFiled(textView);
+       // textFileds.add(textView);
+       // fieldAdapter.addFiled(textView);
     }
 
     public void addSubmitButton(String buttonLabel){
@@ -135,20 +156,20 @@ public class FormFactory extends LinearLayout {
 
 
 
-
+/*
     public void addPasswordFiled(String hint){
-        PasswordStrengthBar passwordHolder = new PasswordStrengthBar(getContext());
+        InteractiveField passwordHolder = new InteractiveField(context);
         Log.d("tag", "init password field 1");
         passwordHolder.addPasswordFieldText(hint);
 
         formLinearLayout.addView(passwordHolder);
         fieldAdapter.addFiled(passwordHolder);
 
-    }
+    }*/
 
     public void fieldValidation(){
 
-        passwordScore = ps.getPasswordScore();
+        passwordScore = interactiveField.getPasswordScore();
 
         boolean blankFields = false;
 
@@ -175,7 +196,7 @@ public class FormFactory extends LinearLayout {
         }
         else if (blankFields){
             Log.d("tag", "Some field is blank");
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage("Some field is blank")
                     .setNegativeButton("Retry", null)
                     .create()
@@ -184,8 +205,8 @@ public class FormFactory extends LinearLayout {
         else if(!textFileds.get(3).getText().toString().matches("[0-9]+") && active){
             Log.d("tag", "age must be numbers");
         }
-        else if ( ps.getPasswordScore() < 40 ){
-            Log.d("tag", "Passwordscore: " + ps.getPasswordScore());
+        else if ( interactiveField.getPasswordScore() < 40 ){
+            Log.d("tag", "Passwordscore: " + interactiveField.getPasswordScore());
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Password is too waek")
                     .setNegativeButton("Retry", null)
@@ -195,7 +216,7 @@ public class FormFactory extends LinearLayout {
 
         else {
             //create error message
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage("Register faild")
                     .setNegativeButton("Retry", null)
                     .create()

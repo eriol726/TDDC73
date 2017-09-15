@@ -21,27 +21,21 @@ import com.example.erik.accountregistration2.Algorithm.PasswordAlgorithm;
  * Created by Erik on 2017-02-04.
  */
 
-public class PasswordStrengthBar extends LinearLayout{
+public class InteractiveField extends LinearLayout{
     ProgressBar progressBar;
     TextView strengthText;
     EditText editPassword;
     PasswordAlgorithm passwordAlgorithm;
+    AccountParameter accountParameter;
     static int passwordScore = 0;
 
 
-    public PasswordStrengthBar(Context context) {
+    public InteractiveField(Context context, AccountParameter theAccountParameter) {
         super(context);
         init(context);
+        accountParameter = theAccountParameter;
     }
 
-    public PasswordStrengthBar(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
-
-    public PasswordStrengthBar(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
 
     private void init(Context context){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
