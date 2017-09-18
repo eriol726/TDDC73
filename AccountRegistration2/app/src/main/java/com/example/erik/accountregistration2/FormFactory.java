@@ -20,6 +20,7 @@ import com.example.erik.accountregistration2.Algorithm.AlgorithmFactory;
 import com.example.erik.accountregistration2.Algorithm.FieldAlgorithmInterface;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Erik on 2017-02-03.
@@ -33,7 +34,8 @@ public class FormFactory extends LinearLayout {
     FieldAdapter fieldAdapter;
     boolean active = false;
 
-
+    List<AccountParameter> params;
+    List<textFieldInput> textFieldInput;
 
     private ArrayList<EditText> textFileds;
     int passwordScore = 0;
@@ -61,6 +63,9 @@ public class FormFactory extends LinearLayout {
         ps = new PasswordStrengthBar(getContext());
 
         fieldAdapter = new FieldAdapter(context);
+        textFieldInput = new ArrayList<textFieldInput>();
+
+        textFieldInput.add(new textFieldInput(context));
 
       /*  formLinearLayout = new LinearLayout(getContext());
 
@@ -85,7 +90,7 @@ public class FormFactory extends LinearLayout {
 
         FieldAlgorithmInterface fieldAlgorithmInterface = algorithmFactory.getAlgorithm(fieldName);
 
-        fieldAlgorithmInterface.checkField()
+        fieldAlgorithmInterface.checkField(fieldName);
 
         setTextView(fieldName);
 
