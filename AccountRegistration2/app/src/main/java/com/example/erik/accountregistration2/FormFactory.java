@@ -1,20 +1,16 @@
 package com.example.erik.accountregistration2;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.os.Build;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.erik.accountregistration2.Algorithm.AlgorithmFactory;
 import com.example.erik.accountregistration2.Algorithm.FieldAlgorithmInterface;
@@ -35,7 +31,7 @@ public class FormFactory extends LinearLayout {
     boolean active = false;
 
     List<AccountParameter> params;
-    List<textFieldInput> textFieldInput;
+    //List<TextFieldInput> textFieldInput;
 
     private ArrayList<EditText> textFileds;
     int passwordScore = 0;
@@ -63,9 +59,9 @@ public class FormFactory extends LinearLayout {
         ps = new PasswordStrengthBar(getContext());
 
         fieldAdapter = new FieldAdapter(context);
-        textFieldInput = new ArrayList<textFieldInput>();
+        //textFieldInput = new ArrayList<TextFieldInput>();
 
-        textFieldInput.add(new textFieldInput(context));
+        //textFieldInput.add(new TextFieldInput(context));
 
       /*  formLinearLayout = new LinearLayout(getContext());
 
@@ -90,9 +86,16 @@ public class FormFactory extends LinearLayout {
 
         FieldAlgorithmInterface fieldAlgorithmInterface = algorithmFactory.getAlgorithm(fieldName);
 
-        fieldAlgorithmInterface.checkField(fieldName);
+
+
+
+
+        textFileds.add(textView);
+        fieldAdapter.addFiled(textView);
 
         setTextView(fieldName);
+
+
 
 
     }
@@ -126,9 +129,10 @@ public class FormFactory extends LinearLayout {
 
         formLinearLayout.addView(linearLayoutHorizontal);
 
+        TextFieldInput textFieldInput = new TextFieldInput(getContext(), textView);
+        //textFieldInput.addTextField(fieldName);
 
-        textFileds.add(textView);
-        fieldAdapter.addFiled(textView);
+
     }
 
     public void addSubmitButton(String buttonLabel){
