@@ -26,6 +26,7 @@ public class FormFactory extends LinearLayout {
     LinearLayout formLinearLayout;
     Button submitButton;
     EditText textView;
+    EditText textView2;
     FieldAdapter fieldAdapter;
     boolean active = false;
 
@@ -83,14 +84,8 @@ public class FormFactory extends LinearLayout {
 
     public void addTextField(String fieldName){
 
-        AlgorithmFactory algorithmFactory = new AlgorithmFactory();
 
 
-
-        FieldAlgorithmInterface fieldAlgorithmInterface = algorithmFactory.getAlgorithm(fieldName);
-
-
-        params.get(0).setAlgorithm(fieldAlgorithmInterface);
 
 
         textFileds.add(textView);
@@ -132,7 +127,7 @@ public class FormFactory extends LinearLayout {
 
         formLinearLayout.addView(linearLayoutHorizontal);
 
-        TextFieldInput textFieldInput = new TextFieldInput(getContext(), textView, params.get(0));
+        //TextFieldInput textFieldInput = new TextFieldInput(getContext(), textView, params.get(0));
         //textFieldInput.addTextField(fieldName);
 
 
@@ -228,7 +223,50 @@ public class FormFactory extends LinearLayout {
 
     public void setAdapter(List<AccountParameter> theAccountParameters) {
 
+        AlgorithmFactory algorithmFactory = new AlgorithmFactory();
+
         params = new ArrayList<AccountParameter>();
         params = theAccountParameters;
+
+        FieldAlgorithmInterface fieldAlgorithmInterface = algorithmFactory.getAlgorithm(params.get(0).getName());
+
+
+
+        if (params.get(0).getName().equals("Email")){
+
+            try
+            {
+                Log.d("tag", "Found " + params.get(0).getName());
+                params.get(0).setAlgorithm(fieldAlgorithmInterface);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        textView2 = new EditText(getContext());
+        textView2.setHint(params.get(0).getName());
+        LinearLayout.LayoutParams fieldLabellp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        LinearLayout linearLayoutHorizontal = new LinearLayout(getContext());
+        linearLayoutHorizontal.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        textView2.setLayoutParams(fieldLabellp);
+
+
+        linearLayoutHorizontal.addView(textView2,0);
+
+        formLinearLayout.addView(linearLayoutHorizontal);
+
+        TextFieldInput textFieldInput = new TextFieldInput(getContext(), textView2, params.get(0));
+
     }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 public class PasswordAlgorithm implements FieldAlgorithmInterface {
     @Override
     public boolean checkField(String fieldText) {
+        Log.d("tag", "password algorithm");
         return false;
     }
 

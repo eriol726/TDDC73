@@ -23,6 +23,14 @@ public class AccountParameter {
         fieldAlgorithmInterface = theFieldAlgorithmInterface;
     }
 
+    public boolean hasAlgorithm()
+    {
+        if (fieldAlgorithmInterface != null)
+            return true;
+
+        return false;
+    }
+
     public FieldAlgorithmInterface getFieldAlgorithm()
     {
         return fieldAlgorithmInterface;
