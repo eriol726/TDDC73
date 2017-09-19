@@ -2,8 +2,6 @@ package com.example.erik.accountregistration2;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.erik.accountregistration2.Algorithm.AlgorithmFactory;
 import com.example.erik.accountregistration2.Algorithm.FieldAlgorithmInterface;
+import com.example.erik.accountregistration2.Algorithm.TextFieldInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +58,8 @@ public class FormFactory extends LinearLayout {
         ps = new PasswordStrengthBar(getContext());
 
         fieldAdapter = new FieldAdapter(context);
+
+       // params = new ArrayList<AccountParameter>();
         //textFieldInput = new ArrayList<TextFieldInput>();
 
         //textFieldInput.add(new TextFieldInput(context));
@@ -84,10 +85,12 @@ public class FormFactory extends LinearLayout {
 
         AlgorithmFactory algorithmFactory = new AlgorithmFactory();
 
+
+
         FieldAlgorithmInterface fieldAlgorithmInterface = algorithmFactory.getAlgorithm(fieldName);
 
 
-
+        params.get(0).setAlgorithm(fieldAlgorithmInterface);
 
 
         textFileds.add(textView);
@@ -129,7 +132,7 @@ public class FormFactory extends LinearLayout {
 
         formLinearLayout.addView(linearLayoutHorizontal);
 
-        TextFieldInput textFieldInput = new TextFieldInput(getContext(), textView);
+        TextFieldInput textFieldInput = new TextFieldInput(getContext(), textView, params.get(0));
         //textFieldInput.addTextField(fieldName);
 
 
@@ -223,7 +226,9 @@ public class FormFactory extends LinearLayout {
     }
 
 
-    public void setAdapter(FieldAdapter fields) {
-        fieldAdapter = fields;
+    public void setAdapter(List<AccountParameter> theAccountParameters) {
+
+        params = new ArrayList<AccountParameter>();
+        params = theAccountParameters;
     }
 }
