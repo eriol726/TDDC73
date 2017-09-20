@@ -15,6 +15,7 @@ public class PasswordAlgorithm implements FieldAlgorithmInterface {
 
     @Override
     public int getPasswordScore(String password) {
+        Log.d("tag", "getPasswordScore");
         int passwordScore = 0;
         if (!password.matches("[a-zA-Z1-9.? ]*")) {
             Log.d("tag", "found");

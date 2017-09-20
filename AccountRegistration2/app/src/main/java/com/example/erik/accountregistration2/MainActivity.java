@@ -20,14 +20,15 @@ public class MainActivity extends AppCompatActivity {
         fieldAdapter = new FieldAdapter(this);
 
         List<AccountParameter> params = new ArrayList<AccountParameter>();
+        params.add(new AccountParameter("Username"));
         params.add(new AccountParameter("Email"));
+        params.add(new AccountParameter("Age"));
+        params.add(new AccountParameter("Name"));
+        params.add(new AccountParameter("Password"));
         formFactory.setAdapter(params);
 
-        formFactory.addTextField("Username");
-        formFactory.addTextField("Name");
-        formFactory.addTextField("Email");
-        formFactory.addAge("Age", true);
-        formFactory.addPasswordFiled("Password");
+
+        //formFactory.addPasswordFiled("Password");
         formFactory.addSubmitButton("Submit");
 
         //passing a new adapter to formFactory class that can hold all the fields
