@@ -168,22 +168,25 @@ public class FormFactory extends LinearLayout {
         boolean validPassword = ps.isValidPasswordField();
 
         boolean blankFields = false;
-        boolean noValidFields = false;
+        boolean validAlgorithmFields = false;
 
         //check if some field is blank
+
         for(int i = 0; i < textFieldInput.size(); i++){
-            if(textFieldInput.get(i).getTextField().getText().equals("")){
-                //Log.d("tag", "Label: " + textFieldInput.get(i).getTextField().getText()+ "\n");
+            Log.d("tag", "InputText: " + textFieldInput.get(i).getTextField().getText().toString().equals("")+ "\n");
+            if(textFieldInput.get(i).getTextField().getText().toString().equals("")){
+                Log.d("tag", "Label: " + textFieldInput.get(i).getTextField().getText()+ "\n");
                 blankFields = true;
             }
-            if(!textFieldInput.get(i).isValidField()){
-                noValidFields = true;
+            if( params.get(i).hasAlgorithm() && textFieldInput.get(i).isValidField()){
+                Log.d("tag", "validAlgorithmFields:" + textFieldInput.get(i).getTextField().getText() + ": " + textFieldInput.get(i).isValidField() + "\n");
+                validAlgorithmFields = true;
             }
-            Log.d("tag", "isValidField: " + textFieldInput.get(i).isValidField() + "\n");
+
         }
 
-        if (!blankFields && !noValidFields) {
-            //Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        if (!blankFields && validAlgorithmFields && validPassword) {
+            Log.d("tag", "blankFields: " + blankFields);
             Log.d("tag", "Register ok!");
             //RegisterActivity.this.startActivity(intent);
             Toast.makeText(getContext(), "User is registered",
@@ -198,7 +201,7 @@ public class FormFactory extends LinearLayout {
                     .create()
                     .show();
         }
-        else if ( validPassword ){
+        else if ( !validPassword ){
             Log.d("tag", "Passwordscore: " + validPassword);
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Password is too waek")
@@ -206,8 +209,9 @@ public class FormFactory extends LinearLayout {
                     .create()
                     .show();
         }
-        else if(noValidFields){
-            Log.d("tag", "noValidFields: " + noValidFields);
+        else if(!validAlgorithmFields){
+            Log.d("tag", "blankFields: " + blankFields);
+            Log.d("tag", "noValidFields: " + validAlgorithmFields);
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Email is not valid")
                     .setNegativeButton("Retry", null)
@@ -269,12 +273,13 @@ public class FormFactory extends LinearLayout {
 
                 formLinearLayout.addView(linearLayoutHorizontal);
 
+                textFieldInput.add(new TextFieldInput(getContext(), textView2, params.get(i)));
             }
 
             textFileds.add(textView2);
 
 
-            textFieldInput.add(new TextFieldInput(getContext(), textView2, params.get(i)));
+
 
 
 

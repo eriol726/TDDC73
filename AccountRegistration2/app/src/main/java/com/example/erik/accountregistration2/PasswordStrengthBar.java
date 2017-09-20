@@ -26,7 +26,7 @@ public class PasswordStrengthBar extends LinearLayout{
     TextView strengthText;
     EditText editPassword;
 
-    boolean validPassword;
+    public boolean validPassword;
     PasswordAlgorithm passwordAlgorithm;
     static int passwordScore = 0;
 
@@ -67,7 +67,7 @@ public class PasswordStrengthBar extends LinearLayout{
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!s.toString().equals("")) {
-                    validPassword = checkPasswordStrength(s.toString());
+                    checkPasswordStrength(s.toString());
                 }
                 else{
                     progressBar.setProgress(0);
@@ -88,7 +88,7 @@ public class PasswordStrengthBar extends LinearLayout{
     public boolean checkPasswordStrength(String password) {
 
         Log.d("tag", "getPassword: " + passwordScore);
-        boolean validPassword = false;
+
 
 
         Log.d("tag", password);
@@ -134,6 +134,7 @@ public class PasswordStrengthBar extends LinearLayout{
     }
 
     public boolean isValidPasswordField(){
+        Log.d("tag", "validPassword: " + validPassword);
         return validPassword;
     }
 

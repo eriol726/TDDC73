@@ -48,13 +48,9 @@ public class TextFieldInput extends LinearLayout {
             public void onTextChanged(CharSequence s, int i, int i1, int i2) {
                 if (accountParameter.hasAlgorithm()) {
                     Log.d("tag", "has algorithm");
-                    if(accountParameter.getFieldAlgorithm().equals("Password")){
-                        Log.d("tag", "getValidPassword");
-                        validField = accountParameter.getFieldAlgorithm().getValidPassword(s.toString());
-                    }
-                    else{
-                        validField = accountParameter.getFieldAlgorithm().checkField(s.toString());
-                    }
+
+                    validField = accountParameter.getFieldAlgorithm().checkField(s.toString());
+
 
 
 
