@@ -88,7 +88,7 @@ public class FormFactory extends LinearLayout {
 
 
 
-        textFileds.add(textView);
+
         fieldAdapter.addFiled(textView);
 
         setTextView(fieldName);
@@ -165,31 +165,31 @@ public class FormFactory extends LinearLayout {
 
     public void fieldValidation(){
 
-        passwordScore = ps.getPasswordScore();
+        boolean validPassword = ps.isValidPasswordField();
 
         boolean blankFields = false;
+        boolean noValidFields = false;
 
         //check if some field is blank
-        for(int i = 0; i < textFileds.size(); i++){
-            if(textFileds.get(i).getText().toString().equals("")){
-                Log.d("tag", "Label: " + textFileds.get(i).getHint());
+        for(int i = 0; i < textFieldInput.size(); i++){
+            if(textFieldInput.get(i).getTextField().getText().equals("")){
+                //Log.d("tag", "Label: " + textFieldInput.get(i).getTextField().getText()+ "\n");
                 blankFields = true;
             }
+            if(!textFieldInput.get(i).isValidField()){
+                noValidFields = true;
+            }
+            Log.d("tag", "isValidField: " + textFieldInput.get(i).isValidField() + "\n");
         }
-        //boolean usernameIsBlank = textView.getText().toString().equals("");
 
-        Context c = getContext();
-
-        //MainActivity main = new MainActivity();
-        //Log.d("tag",  "field" + main.formFactory.getChildAt(0));
-
-        if (passwordScore >= 40 && !blankFields) {
+        if (!blankFields && !noValidFields) {
             //Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             Log.d("tag", "Register ok!");
             //RegisterActivity.this.startActivity(intent);
             Toast.makeText(getContext(), "User is registered",
                     Toast.LENGTH_LONG).show();
         }
+
         else if (blankFields){
             Log.d("tag", "Some field is blank");
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -198,18 +198,22 @@ public class FormFactory extends LinearLayout {
                     .create()
                     .show();
         }
-        else if(!textFileds.get(3).getText().toString().matches("[0-9]+") && active){
-            Log.d("tag", "age must be numbers");
-        }
-        else if ( ps.getPasswordScore() < 40 ){
-            Log.d("tag", "Passwordscore: " + ps.getPasswordScore());
+        else if ( validPassword ){
+            Log.d("tag", "Passwordscore: " + validPassword);
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage("Password is too waek")
                     .setNegativeButton("Retry", null)
                     .create()
                     .show();
         }
-
+        else if(noValidFields){
+            Log.d("tag", "noValidFields: " + noValidFields);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Email is not valid")
+                    .setNegativeButton("Retry", null)
+                    .create()
+                    .show();
+        }
         else {
             //create error message
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -236,14 +240,15 @@ public class FormFactory extends LinearLayout {
 
 
             params.get(i).setAlgorithm(fieldAlgorithmInterface);
-
+            textView2 = new EditText(getContext());
+            textView2.setHint(params.get(i).getName());
             if (params.get(i).getName().equals("Password")){
-                textView2 = new EditText(getContext());
+
                 addPasswordFiled(params.get(i).getName());
             }
             else{
-                textView2 = new EditText(getContext());
-                textView2.setHint(params.get(i).getName());
+
+
                 LinearLayout.LayoutParams fieldLabellp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -261,11 +266,12 @@ public class FormFactory extends LinearLayout {
 
                 linearLayoutHorizontal.addView(textView2,0);
 
+
                 formLinearLayout.addView(linearLayoutHorizontal);
 
             }
 
-
+            textFileds.add(textView2);
 
 
             textFieldInput.add(new TextFieldInput(getContext(), textView2, params.get(i)));

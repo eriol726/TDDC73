@@ -31,10 +31,10 @@ public class EmailAlgorithm implements FieldAlgorithmInterface {
         Matcher matcher = pattern.matcher(inputStr);
 
         if (matcher.matches()) {
-            //Toast.makeText(getApplicationContext(),"valid email address", Toast.LENGTH_SHORT).show();
-            Log.d("tag", "too short");
+            Log.d("tag", "email ok!");
             return true;
         } else {
+            Log.d("tag", "email not valid!");
             return false;
         }
     }
@@ -42,5 +42,10 @@ public class EmailAlgorithm implements FieldAlgorithmInterface {
     @Override
     public int getPasswordScore(String fieldText) {
         return 0;
+    }
+
+    @Override
+    public boolean getValidPassword(String s) {
+        return false;
     }
 }

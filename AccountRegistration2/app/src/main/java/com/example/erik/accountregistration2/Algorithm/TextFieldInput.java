@@ -19,6 +19,8 @@ import com.example.erik.accountregistration2.R;
 public class TextFieldInput extends LinearLayout {
 
     //Context context;
+    public boolean validField = false;
+    public int passwordScore;
 
     public EditText editText;
     AccountParameter accountParameter;
@@ -47,10 +49,11 @@ public class TextFieldInput extends LinearLayout {
                 if (accountParameter.hasAlgorithm()) {
                     Log.d("tag", "has algorithm");
                     if(accountParameter.getFieldAlgorithm().equals("Password")){
-                        accountParameter.getFieldAlgorithm().getPasswordScore(s.toString());
+                        Log.d("tag", "getValidPassword");
+                        validField = accountParameter.getFieldAlgorithm().getValidPassword(s.toString());
                     }
                     else{
-                        accountParameter.getFieldAlgorithm().checkField(s.toString());
+                        validField = accountParameter.getFieldAlgorithm().checkField(s.toString());
                     }
 
 
@@ -74,7 +77,13 @@ public class TextFieldInput extends LinearLayout {
     }
 
     public EditText getTextField(){
+
         return editText;
+    }
+
+    public boolean isValidField(){
+
+        return validField;
     }
 
 

@@ -8,4 +8,6 @@ public interface FieldAlgorithmInterface {
     boolean checkField(String fieldText);
 
     int getPasswordScore(String fieldText);
+
+    boolean getValidPassword(String s);
 }

@@ -25,6 +25,8 @@ public class PasswordStrengthBar extends LinearLayout{
     ProgressBar progressBar;
     TextView strengthText;
     EditText editPassword;
+
+    boolean validPassword;
     PasswordAlgorithm passwordAlgorithm;
     static int passwordScore = 0;
 
@@ -65,7 +67,7 @@ public class PasswordStrengthBar extends LinearLayout{
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!s.toString().equals("")) {
-                    checkPasswordStrength(s.toString());
+                    validPassword = checkPasswordStrength(s.toString());
                 }
                 else{
                     progressBar.setProgress(0);
@@ -83,8 +85,10 @@ public class PasswordStrengthBar extends LinearLayout{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    void checkPasswordStrength(String password) {
+    public boolean checkPasswordStrength(String password) {
 
+        Log.d("tag", "getPassword: " + passwordScore);
+        boolean validPassword = false;
 
 
         Log.d("tag", password);
@@ -99,18 +103,22 @@ public class PasswordStrengthBar extends LinearLayout{
         Log.d("tag", "passwordScore: " + passwordScore);
         if (passwordScore >= 100) {
             strengthText.setText("Strong");
+            validPassword = true;
             progressBar.setProgress(4);
             progressBar.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
         } else if (passwordScore >= 80) {
             strengthText.setText("Medium");
+            validPassword = true;
             progressBar.setProgress(3);
             progressBar.setProgressTintList(ColorStateList.valueOf(Color.YELLOW));
         } else if (passwordScore >= 60) {
+            validPassword = true;
             strengthText.setText("Weak");
             progressBar.setProgress(2);
             progressBar.setProgressTintList(ColorStateList.valueOf(Color.MAGENTA));
         } else if (passwordScore < 60) {
-            strengthText.setText("Very Weak");
+            validPassword = false;
+            strengthText.setText("Too Weak");
             Log.d("tag", "<60: " + passwordScore);
             progressBar.setProgress(1);
             progressBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
@@ -121,14 +129,13 @@ public class PasswordStrengthBar extends LinearLayout{
         Log.d("tag", "password: " + password);
 
 
-    }
-
-    public int getPasswordScore(){
-        Log.d("tag", "getPassword: " + passwordScore);
-        return passwordScore;
+        return validPassword;
 
     }
 
+    public boolean isValidPasswordField(){
+        return validPassword;
+    }
 
     public void addPasswordFieldText(String txt){
         editPassword.setHint(txt);

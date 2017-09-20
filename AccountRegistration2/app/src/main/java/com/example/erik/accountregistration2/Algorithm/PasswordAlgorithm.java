@@ -9,6 +9,10 @@ import android.util.Log;
 public class PasswordAlgorithm implements FieldAlgorithmInterface {
     @Override
     public boolean checkField(String fieldText) {
+
+        if (getPasswordScore(fieldText) > 40){
+            return true;
+        }
         Log.d("tag", "password algorithm");
         return false;
     }
@@ -44,4 +48,15 @@ public class PasswordAlgorithm implements FieldAlgorithmInterface {
 
         return passwordScore;
     }
+
+    public boolean getValidPassword(String password){
+        Log.d("tag", "password algorithm!!!!!!!!!!!!!!!!!!");
+        if (getPasswordScore(password) > 40){
+            return true;
+        }
+
+        return false;
+    }
+
+
 }
