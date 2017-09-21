@@ -26,7 +26,7 @@ public class PasswordStrengthBar extends LinearLayout{
     TextView strengthText;
     EditText editPassword;
 
-    public boolean validPassword;
+    static boolean validPassword;
     PasswordAlgorithm passwordAlgorithm;
     static int passwordScore = 0;
 
@@ -126,6 +126,7 @@ public class PasswordStrengthBar extends LinearLayout{
 
 
         Log.d("tag", "Score: " + passwordScore);
+        Log.d("tag", "validPassword : " + validPassword);
         Log.d("tag", "password: " + password);
 
 
