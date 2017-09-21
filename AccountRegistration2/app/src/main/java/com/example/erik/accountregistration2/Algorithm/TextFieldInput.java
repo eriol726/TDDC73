@@ -16,11 +16,14 @@ import com.example.erik.accountregistration2.R;
  * Created by Erik on 2017-09-18.
  */
 
+/**
+ * This class sends the input characters form the fields to its belonging param-algorithm
+ */
+
 public class TextFieldInput extends LinearLayout {
 
-    //Context context;
+
     public boolean validField = false;
-    public int passwordScore;
 
     public EditText editText;
     AccountParameter accountParameter;
@@ -28,7 +31,6 @@ public class TextFieldInput extends LinearLayout {
         super(theContext);
         editText = theEditText;
         accountParameter = theAccountParameter;
-        //context = theContext;
         init(theContext);
     }
 
@@ -52,8 +54,6 @@ public class TextFieldInput extends LinearLayout {
                     validField = accountParameter.getFieldAlgorithm().checkField(s.toString());
 
 
-
-
                 }
                 else{
                     Log.d("tag", "has no algorithm");
@@ -68,9 +68,6 @@ public class TextFieldInput extends LinearLayout {
     }
 
 
-    public void addTextField(String txt){
-        editText.setHint(txt);
-    }
 
     public EditText getTextField(){
 

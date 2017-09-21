@@ -10,9 +10,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.erik.accountregistration2.MainActivity">
 
-    <com.example.erik.accountregistration2.FormFactory
-        android:id="@+id/FormFactory"
+    <com.example.erik.accountregistration2.FormVisualizer
+        android:id="@+id/FormVisualizer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.example.erik.accountregistration2.FormFactory>
+    </com.example.erik.accountregistration2.FormVisualizer>
 </RelativeLayout>

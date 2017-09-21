@@ -6,6 +6,10 @@ import android.util.Log;
  * Created by Erik on 2017-02-09.
  */
 
+/**
+ * This class determines how much scores each password character gives
+ */
+
 public class PasswordAlgorithm implements FieldAlgorithmInterface {
     @Override
     public boolean checkField(String fieldText) {
@@ -49,14 +53,7 @@ public class PasswordAlgorithm implements FieldAlgorithmInterface {
         return passwordScore;
     }
 
-    public boolean getValidPassword(String password){
-        Log.d("tag", "password algorithm!!!!!!!!!!!!!!!!!!");
-        if (getPasswordScore(password) > 40){
-            return true;
-        }
 
-        return false;
-    }
 
 
 }

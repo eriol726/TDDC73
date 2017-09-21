@@ -21,6 +21,11 @@ import com.example.erik.accountregistration2.Algorithm.PasswordAlgorithm;
  * Created by Erik on 2017-02-04.
  */
 
+/**
+ * This class sets the color and the strength name on the password bar given the password score from
+ * the algorithm
+ */
+
 public class PasswordStrengthBar extends LinearLayout{
     ProgressBar progressBar;
     TextView strengthText;

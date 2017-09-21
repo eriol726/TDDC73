@@ -11,6 +11,10 @@ import java.util.regex.Pattern;
  * Created by Erik on 2017-09-13.
  */
 
+/**
+ *  Algorithm that's controls if the email address is correct
+ */
+
 public class EmailAlgorithm implements FieldAlgorithmInterface {
 
 
@@ -44,8 +48,4 @@ public class EmailAlgorithm implements FieldAlgorithmInterface {
         return 0;
     }
 
-    @Override
-    public boolean getValidPassword(String s) {
-        return false;
-    }
 }

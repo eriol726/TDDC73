@@ -21,34 +21,38 @@ import java.util.List;
  * Created by Erik on 2017-02-03.
  */
 
-public class FormFactory extends LinearLayout {
+/**
+ * This class creates a form and visualize it given the Account parameters from MainActivity.
+ *
+ * The fieldValidation function validates the user inputs for the Account
+ */
+
+public class FormVisualizer extends LinearLayout {
 
     LinearLayout formLinearLayout;
     Button submitButton;
+
     EditText textView;
-    EditText textView2;
-    FieldAdapter fieldAdapter;
-    boolean active = false;
+
 
     List<AccountParameter> params;
     List<TextFieldInput> textFieldInput;
 
     private ArrayList<EditText> textFileds;
-    int passwordScore = 0;
     private PasswordStrengthBar ps;
 
 
-    public FormFactory(Context context) {
+    public FormVisualizer(Context context) {
         super(context);
         init(context);
     }
 
-    public FormFactory(Context context, AttributeSet attrs) {
+    public FormVisualizer(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public FormFactory(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FormVisualizer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -58,79 +62,9 @@ public class FormFactory extends LinearLayout {
 
         ps = new PasswordStrengthBar(getContext());
 
-        fieldAdapter = new FieldAdapter(context);
 
-       // params = new ArrayList<AccountParameter>();
-        //textFieldInput = new ArrayList<TextFieldInput>();
-
-        //textFieldInput.add(new TextFieldInput(context));
-
-      /*  formLinearLayout = new LinearLayout(getContext());
-
-        RelativeLayout.LayoutParams linearLayoutParam = new RelativeLayout.LayoutParams(
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.WRAP_CONTENT);
-
-        formLinearLayout.setLayoutParams(linearLayoutParam);
-
-        linearLayoutParam.addRule(RelativeLayout.BELOW, formLinearLayout.getId());*/
-
-
-        formLinearLayout = (LinearLayout)findViewById(R.id.FormFactory);
+        formLinearLayout = (LinearLayout)findViewById(R.id.FormVisualizer);
         formLinearLayout.setOrientation(LinearLayout.VERTICAL);
-
-
-    }
-
-    public void addTextField(String fieldName){
-
-
-
-
-
-
-        fieldAdapter.addFiled(textView);
-
-        setTextView(fieldName);
-
-
-
-
-    }
-    public void addAge(String fieldName, boolean activeParam){
-        active = activeParam;
-        setTextView(fieldName);
-
-
-    }
-
-
-    public void setTextView(String fieldName){
-        textView = new EditText(getContext());
-        textView.setHint(fieldName);
-        LinearLayout.LayoutParams fieldLabellp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        LinearLayout linearLayoutHorizontal = new LinearLayout(getContext());
-        linearLayoutHorizontal.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams llparams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        textView.setLayoutParams(fieldLabellp);
-
-
-        linearLayoutHorizontal.addView(textView,0);
-
-        formLinearLayout.addView(linearLayoutHorizontal);
-
-        //TextFieldInput textFieldInput = new TextFieldInput(getContext(), textView, params.get(0));
-        //textFieldInput.addTextField(fieldName);
-
-
     }
 
     public void addSubmitButton(String buttonLabel){
@@ -146,21 +80,15 @@ public class FormFactory extends LinearLayout {
         });
 
         formLinearLayout.addView(submitButton);
-        fieldAdapter.addFiled(submitButton);
     }
-
-
 
 
     public void addPasswordFiled(String hint){
         PasswordStrengthBar passwordHolder = new PasswordStrengthBar(getContext());
-        Log.d("tag", "init password field 1");
+
         passwordHolder.addPasswordFieldText(hint);
 
         formLinearLayout.addView(passwordHolder);
-        fieldAdapter.addFiled(passwordHolder);
-
-
     }
 
     public void fieldValidation(){
@@ -168,19 +96,19 @@ public class FormFactory extends LinearLayout {
         boolean validPassword = ps.isValidPasswordField();
 
         boolean blankFields = false;
-        boolean validAlgorithmFields = false;
-
-        //check if some field is blank
+        boolean validAlgorithmFields = true;
+        int invalidParamIndex = 0;
 
         for(int i = 0; i < textFieldInput.size(); i++){
-            Log.d("tag", "InputText: " + textFieldInput.get(i).getTextField().getText().toString().equals("")+ "\n");
+
             if(textFieldInput.get(i).getTextField().getText().toString().equals("")){
-                Log.d("tag", "Label: " + textFieldInput.get(i).getTextField().getText()+ "\n");
+
                 blankFields = true;
             }
-            if( params.get(i).hasAlgorithm() && textFieldInput.get(i).isValidField()){
-                Log.d("tag", "validAlgorithmFields:" + textFieldInput.get(i).getTextField().getText() + ": " + textFieldInput.get(i).isValidField() + "\n");
-                validAlgorithmFields = true;
+            if( params.get(i).hasAlgorithm() && !textFieldInput.get(i).isValidField()){
+
+                validAlgorithmFields = false;
+                invalidParamIndex = i;
             }
 
         }
@@ -188,7 +116,7 @@ public class FormFactory extends LinearLayout {
         if (!blankFields && validAlgorithmFields && validPassword) {
             Log.d("tag", "blankFields: " + blankFields);
             Log.d("tag", "Register ok!");
-            //RegisterActivity.this.startActivity(intent);
+
             Toast.makeText(getContext(), "User is registered",
                     Toast.LENGTH_LONG).show();
         }
@@ -213,7 +141,7 @@ public class FormFactory extends LinearLayout {
             Log.d("tag", "blankFields: " + blankFields);
             Log.d("tag", "noValidFields: " + validAlgorithmFields);
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("Email is not valid")
+            builder.setMessage( params.get(invalidParamIndex).getName() + " is not valid")
                     .setNegativeButton("Retry", null)
                     .create()
                     .show();
@@ -230,7 +158,7 @@ public class FormFactory extends LinearLayout {
     }
 
 
-    public void setAdapter(List<AccountParameter> theAccountParameters) {
+    public void setLayout(List<AccountParameter> theAccountParameters) {
 
         AlgorithmFactory algorithmFactory = new AlgorithmFactory();
 
@@ -244,8 +172,8 @@ public class FormFactory extends LinearLayout {
 
 
             params.get(i).setAlgorithm(fieldAlgorithmInterface);
-            textView2 = new EditText(getContext());
-            textView2.setHint(params.get(i).getName());
+            textView = new EditText(getContext());
+            textView.setHint(params.get(i).getName());
             if (params.get(i).getName().equals("Password")){
 
                 addPasswordFiled(params.get(i).getName());
@@ -265,23 +193,18 @@ public class FormFactory extends LinearLayout {
                         LinearLayout.LayoutParams.WRAP_CONTENT
                 );
 
-                textView2.setLayoutParams(fieldLabellp);
+                textView.setLayoutParams(fieldLabellp);
 
 
-                linearLayoutHorizontal.addView(textView2,0);
+                linearLayoutHorizontal.addView(textView,0);
 
 
                 formLinearLayout.addView(linearLayoutHorizontal);
 
-                textFieldInput.add(new TextFieldInput(getContext(), textView2, params.get(i)));
+                textFieldInput.add(new TextFieldInput(getContext(), textView, params.get(i)));
             }
 
-            textFileds.add(textView2);
-
-
-
-
-
+            textFileds.add(textView);
 
 
         }

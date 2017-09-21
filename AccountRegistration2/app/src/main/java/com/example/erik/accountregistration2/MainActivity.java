@@ -6,18 +6,24 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Here is the fields added to the form. If a field should have an algorithm, a new factory class
+ * has to be created and a new state in AlgorithmFactory
+ */
+
 public class MainActivity extends AppCompatActivity {
 
-    FieldAdapter fieldAdapter ;
-    FormFactory formFactory;
+
+    FormVisualizer formVisualizer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        formFactory = (FormFactory) findViewById(R.id.FormFactory);
+        formVisualizer = (FormVisualizer) findViewById(R.id.FormVisualizer);
 
-        fieldAdapter = new FieldAdapter(this);
+
 
         List<AccountParameter> params = new ArrayList<AccountParameter>();
         params.add(new AccountParameter("Username"));
@@ -25,17 +31,10 @@ public class MainActivity extends AppCompatActivity {
         params.add(new AccountParameter("Age"));
         params.add(new AccountParameter("Name"));
         params.add(new AccountParameter("Password"));
-        formFactory.setAdapter(params);
+        formVisualizer.setLayout(params);
 
 
-        //formFactory.addPasswordFiled("Password");
-        formFactory.addSubmitButton("Submit");
-
-        //passing a new adapter to formFactory class that can hold all the fields
-
-
-
-
+        formVisualizer.addSubmitButton("Submit");
 
     }
 }
