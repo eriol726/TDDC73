@@ -39,12 +39,14 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.serchtext);
         //editText.setText("/");
         editText.setSelection(editText.getText().length());
-
+/*
         Exp_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
                 String path = "/" +Colors_list.get(groupPosition) + "/" +url;
-                editText.setText(path);
+                //editText.setText(path);
+                colorAdapter.setGroupIndex(groupPosition);
+                colorAdapter.setSelectedChildIndex(500);
                 Log.d("tag", "cant close: " );
             }
         });
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        });
+        }); */
 
         Exp_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -108,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().contains("/")){
+                /*if(!s.toString().contains("/")){
                     editText.setText("/" );
                     Selection.setSelection(editText.getText(), editText.getText().length());
 
-                }
+                }*/
             }
         });
 
@@ -142,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("tag", "parent: " + parent);
         if(tempTextToSearch.contains("/")){
-            Log.d("tag", "tempTextToSearch: " + tempTextToSearch + " " +child);
+            //Log.d("tag", "tempTextToSearch: " + tempTextToSearch + " " +child);
             //tempTextToSearch = child;
         }
 
@@ -157,40 +159,40 @@ public class MainActivity extends AppCompatActivity {
                 flag = true;
             }
             // letters in category
-            Log.d("tag", "category: " + tempTextToSearch);
+            //Log.d("tag", "category: " + category);
             if (category.contains(parent)  ) {
                 if (category.equals(parent)) {
                     //collapseAll();
 
 
-                   //Exp_list.expandGroup(Colors_list.indexOf(category));
-                   // String path =  "/" + Colors_list.get(categoryIndex) + "/" ;
-                   // editText.setText(path);
-                    Log.d("tag", "word exist in category: " + category);
-                    editText.setSelection(editText.getText().length());
-                }
-                flag = true;
-            }
-            else {
-                for (int colorIndex = 0; colorIndex < Colors_category.get(category).size(); colorIndex++) {
-                    // letters in color
-                    if (Colors_category.get(category).get(colorIndex).contains(tempTextToSearch)) {
-                        if (Colors_category.get(category).get(colorIndex).equals(tempTextToSearch)) {
-                            collapseAll();
-                            Log.d("tag", "word exist in color: " + child);
-                            Exp_list.expandGroup(Colors_list.indexOf(category));
-                            String path = "/" + Colors_list.get(categoryIndex) + "/" + Colors_category.get(category).get(colorIndex);
-                            //url = child+"/";
-                            editText.setText(path);
-                            editText.setSelection(editText.getText().length());
-                            colorAdapter.setGroupIndex(categoryIndex);
-                            colorAdapter.setSelectedChildIndex(colorIndex);
+                   Exp_list.expandGroup(Colors_list.indexOf(category));
+                   String path =  "/" + Colors_list.get(categoryIndex) + "/" ;
+                    //editText.setText(path);
+                    //Log.d("tag", "word exist in category: " + category);
+                    //editText.setSelection(editText.getText().length());
+                    for (int colorIndex = 0; colorIndex < Colors_category.get(category).size(); colorIndex++) {
+                        // letters in color
+                        if (Colors_category.get(category).get(colorIndex).contains(child)) {
+                            if (Colors_category.get(category).get(colorIndex).equals(child)) {
+                                collapseAll();
+                                Log.d("tag", "word exist in color: " + child + " " + categoryIndex + " " + colorIndex);
+                                //Exp_list.expandGroup(Colors_list.indexOf(category));
+                                 path = "/" + Colors_list.get(categoryIndex) + "/" + Colors_category.get(category).get(colorIndex);
+                                //url = child+"/";
+                                //editText.setText(path);
+                                //editText.setSelection(editText.getText().length());
+                                colorAdapter.setGroupIndex(categoryIndex);
+                                colorAdapter.setSelectedChildIndex(colorIndex);
 
+                            }
+                            flag = true;
                         }
-                        flag = true;
                     }
                 }
+                flag = true;
+
             }
+
 
             categoryIndex++;
         }
