@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("tag", "cant close: " );
             }
         });*/
-        Exp_list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+       /* Exp_list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
                 String path = "/" + Colors_list.get(groupPosition) + "/" ;
@@ -59,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
                 colorAdapter.setGroupIndex(groupPosition);
                 colorAdapter.setSelectedChildIndex(500);
 
-                expanded = Exp_list.isGroupExpanded(groupPosition);
+                //expanded = Exp_list.isGroupExpanded(groupPosition);
                 Log.d("tag", "cant close: " );
                 return false;
             }
-        });
+        });*/
 
 
 
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 colorAdapter.setSelectedChildIndex(500);
                 //Exp_list.clearChoices();
                 //colorAdapter.notifyDataSetChanged();
-                Log.d("tag", "expanded: " + expanded );
+                //Log.d("tag", "expanded: " + expanded );
                //String path = "/h" ;
                //editText.setText(path);
 
@@ -182,9 +182,14 @@ public class MainActivity extends AppCompatActivity {
                 if (category.equals(parent)) {
                     collapseAll();
 
+                    Log.d("tag", "in first loop: " + Colors_list.indexOf(category));
                     if(!Exp_list.isGroupExpanded(Colors_list.indexOf(category))){
+                        Log.d("tag", "not expanded: " + Exp_list.isGroupExpanded(Colors_list.indexOf(category)));
                         Exp_list.expandGroup(Colors_list.indexOf(category));
+
                         expanded = true;
+                    }else{
+                        Exp_list.collapseGroup(Colors_list.indexOf(category));
                     }
 
                    //String path =  "/" + Colors_list.get(categoryIndex) + "/" ;
@@ -197,10 +202,10 @@ public class MainActivity extends AppCompatActivity {
                             if (Colors_category.get(category).get(colorIndex).equals(child)) {
 
                                 Log.d("tag", "word exist in color: " + child + " " + categoryIndex + " " + colorIndex);
-                                if(!Exp_list.isGroupExpanded(Colors_list.indexOf(category))){
+                                /*if(!Exp_list.isGroupExpanded(Colors_list.indexOf(category))){
                                     Exp_list.expandGroup(Colors_list.indexOf(category));
                                     expanded = true;
-                                }
+                                }*/
                                  //path = "/" + Colors_list.get(categoryIndex) + "/" + Colors_category.get(category).get(colorIndex);
                                 //url = child+"/";
                                 //editText.setText(path);
