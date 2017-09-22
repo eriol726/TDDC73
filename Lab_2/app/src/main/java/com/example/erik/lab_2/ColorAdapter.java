@@ -134,4 +134,14 @@ public class ColorAdapter extends BaseExpandableListAdapter {
         selectedCildIndex = childIndex;
         notifyDataSetChanged();
     }
+
+    public boolean ifExpanded(int parent){
+
+        if(selectedParentIndex == parent){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     ColorAdapter colorAdapter;
     EditText editText;
     String url = "";
+    boolean expanded = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,22 +40,38 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.serchtext);
         //editText.setText("/");
         editText.setSelection(editText.getText().length());
-/*
-        Exp_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+  /*      Exp_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                String path = "/" +Colors_list.get(groupPosition) + "/" +url;
-                //editText.setText(path);
+                String path = "/" + "Colors_list.get(groupPosition)" + "/" ;
+                editText.setText(path);
                 colorAdapter.setGroupIndex(groupPosition);
                 colorAdapter.setSelectedChildIndex(500);
                 Log.d("tag", "cant close: " );
             }
+        });*/
+        Exp_list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
+                String path = "/" + Colors_list.get(groupPosition) + "/" ;
+                editText.setText(path);
+                colorAdapter.setGroupIndex(groupPosition);
+                colorAdapter.setSelectedChildIndex(500);
+                expanded = true;
+                Log.d("tag", "cant close: " );
+                return false;
+            }
         });
 
+
+
+/*
         Exp_list.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
             @Override
             public void onGroupCollapse(int groupPosition) {
                 //Deselect selected item in ListView
+
                 colorAdapter.setGroupIndex(groupPosition);
                 colorAdapter.setSelectedChildIndex(500);
                 //Exp_list.clearChoices();
@@ -65,19 +82,20 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        }); */
+        });*/
 
         Exp_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 //int index = parent.getFlatListPosition(ExpandableListView.getPackedPositionForChild(groupPosition, childPosition));
                 //parent.setItemChecked(index, true);
-
+                collapseAll();
                 colorAdapter.setGroupIndex(groupPosition);
                 colorAdapter.setSelectedChildIndex(childPosition);
+                expanded = true;
 
                 Log.d("tag", "childPosition: " + childPosition);
-                //colorAdapter.setSelected(childPosition);
+
                 String path = "/" + Colors_list.get(groupPosition) + "/" + Colors_category.get(Colors_list.get(groupPosition)).get(childPosition);
                 editText.setText(path);
 
@@ -152,21 +170,25 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        if(!expanded){
 
+        }
         for(String category:Colors_list){
             if( tempTextToSearch.equals("/") || tempTextToSearch.equals("")){
                 collapseAll();
                 flag = true;
             }
             // letters in category
-            //Log.d("tag", "category: " + category);
+            Log.d("tag", "in first loop: ");
             if (category.contains(parent)  ) {
                 if (category.equals(parent)) {
-                    //collapseAll();
+                    collapseAll();
 
+                    if(!expanded){
+                        Exp_list.expandGroup(Colors_list.indexOf(category));
+                    }
 
-                   Exp_list.expandGroup(Colors_list.indexOf(category));
-                   String path =  "/" + Colors_list.get(categoryIndex) + "/" ;
+                   //String path =  "/" + Colors_list.get(categoryIndex) + "/" ;
                     //editText.setText(path);
                     //Log.d("tag", "word exist in category: " + category);
                     //editText.setSelection(editText.getText().length());
@@ -174,10 +196,10 @@ public class MainActivity extends AppCompatActivity {
                         // letters in color
                         if (Colors_category.get(category).get(colorIndex).contains(child)) {
                             if (Colors_category.get(category).get(colorIndex).equals(child)) {
-                                collapseAll();
+
                                 Log.d("tag", "word exist in color: " + child + " " + categoryIndex + " " + colorIndex);
-                                //Exp_list.expandGroup(Colors_list.indexOf(category));
-                                 path = "/" + Colors_list.get(categoryIndex) + "/" + Colors_category.get(category).get(colorIndex);
+                                Exp_list.expandGroup(Colors_list.indexOf(category));
+                                 //path = "/" + Colors_list.get(categoryIndex) + "/" + Colors_category.get(category).get(colorIndex);
                                 //url = child+"/";
                                 //editText.setText(path);
                                 //editText.setSelection(editText.getText().length());
