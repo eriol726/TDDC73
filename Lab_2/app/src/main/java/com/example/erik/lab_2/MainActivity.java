@@ -54,20 +54,27 @@ public class MainActivity extends AppCompatActivity {
        Exp_list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
-                /*String path = "/"  ;
-                editText.setText(path);
+                String path = "/"  ;
+
                 //colorAdapter.setGroupIndex(groupPosition);
                 //colorAdapter.setSelectedChildIndex(500);
-
+                path = "/" + Colors_list.get(groupPosition) + "/" ;
+                //editText.setText(path);
                 expanded = Exp_list.isGroupExpanded(groupPosition);
-                Log.d("tag", "cant close: " );*/
+               /* if(!Exp_list.isGroupExpanded(groupPosition)){
+                    editText.setText(path);
+                }
+                else{
+
+                }*/
+                Log.d("tag", "cant close: " );
                 return false;
             }
         });
 
 
 
-
+/*
         Exp_list.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
             @Override
             public void onGroupCollapse(int groupPosition) {
@@ -78,12 +85,12 @@ public class MainActivity extends AppCompatActivity {
                 //Exp_list.clearChoices();
                 //colorAdapter.notifyDataSetChanged();
                 //Log.d("tag", "expanded: " + expanded );
-               //String path2 = "/h" ;
+               String path2 = "/h" ;
                //editText.setText(path2);
 
 
             }
-        });
+        });*/
 
         Exp_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -129,11 +136,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                /*if(!s.toString().contains("/")){
+                if(!s.toString().contains("/")){
                     editText.setText("/" );
                     Selection.setSelection(editText.getText(), editText.getText().length());
 
-                }*/
+
+                }
             }
         });
 
@@ -249,5 +257,6 @@ public class MainActivity extends AppCompatActivity {
     public void collapseAll(){
         for(int i= 0; i < Colors_list.size(); i++)
             Exp_list.collapseGroup(i);
+            colorAdapter.setSelectedChildIndex(500);
     }
 }
