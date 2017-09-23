@@ -51,19 +51,19 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("tag", "cant close: " );
             }
         });*/
-       /* Exp_list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+       Exp_list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
-                String path = "/" + Colors_list.get(groupPosition) + "/" ;
+                /*String path = "/"  ;
                 editText.setText(path);
-                colorAdapter.setGroupIndex(groupPosition);
-                colorAdapter.setSelectedChildIndex(500);
+                //colorAdapter.setGroupIndex(groupPosition);
+                //colorAdapter.setSelectedChildIndex(500);
 
-                //expanded = Exp_list.isGroupExpanded(groupPosition);
-                Log.d("tag", "cant close: " );
+                expanded = Exp_list.isGroupExpanded(groupPosition);
+                Log.d("tag", "cant close: " );*/
                 return false;
             }
-        });*/
+        });
 
 
 
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 //Exp_list.clearChoices();
                 //colorAdapter.notifyDataSetChanged();
                 //Log.d("tag", "expanded: " + expanded );
-               //String path = "/h" ;
-               //editText.setText(path);
+               //String path2 = "/h" ;
+               //editText.setText(path2);
 
 
             }
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String path = "/" + Colors_list.get(groupPosition) + "/" + Colors_category.get(Colors_list.get(groupPosition)).get(childPosition);
                 editText.setText(path);
-
+                editText.setSelection(editText.getText().length());
                 return false;
             }
         });
@@ -168,7 +168,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
+        List<Boolean> isContainingColor = new ArrayList<Boolean>();
+        List<Boolean> isContainingCatogory = new ArrayList<Boolean>();
 
 
         for(String category:Colors_list){
@@ -179,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
             // letters in category
             //Log.d("tag", "in first loop: ");
             if (category.contains(parent)  ) {
+                flag = true;
                 if (category.equals(parent)) {
                     collapseAll();
 
@@ -198,7 +200,12 @@ public class MainActivity extends AppCompatActivity {
                     //editText.setSelection(editText.getText().length());
                     for (int colorIndex = 0; colorIndex < Colors_category.get(category).size(); colorIndex++) {
                         // letters in color
+
+                        isContainingColor.add(false);
                         if (Colors_category.get(category).get(colorIndex).contains(child)) {
+                            Log.d("tag", "existing");
+                            flag = true;
+                            isContainingColor.set(colorIndex,true);
                             if (Colors_category.get(category).get(colorIndex).equals(child)) {
 
                                 Log.d("tag", "word exist in color: " + child + " " + categoryIndex + " " + colorIndex);
@@ -214,18 +221,28 @@ public class MainActivity extends AppCompatActivity {
                                 colorAdapter.setSelectedChildIndex(colorIndex);
 
                             }
-                            flag = true;
+                            //flag = true;
                         }
+
+
                     }
                 }
-                flag = true;
+
 
             }
 
 
             categoryIndex++;
         }
-
+        for(Boolean exist:isContainingColor){
+            Log.d("tag", "boolean loop: " + exist);
+            if(exist){
+                return true;
+            }
+            else{
+                flag = false;
+            }
+        }
 
         return flag;
     }
