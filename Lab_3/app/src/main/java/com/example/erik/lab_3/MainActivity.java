@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+                //obtain connection
                 SearchOperation searchOperation = new SearchOperation(new SearchInterface() {
                     @Override
                     public void setResults(JSONObject result) {
@@ -156,9 +157,9 @@ class SearchOperation extends AsyncTask<String, Void, String> {
         InputStream inputStream = null;
 
         String strFileContents = "";
-
+        // https://www.youtube.com/watch?v=iTBnuCYeq3E
         try{
-
+            // Params, the type of the parameters sent to the task upon execution.
             url = new URL(params[0]);
             connection = (HttpURLConnection) url.openConnection();
             inputStream = new BufferedInputStream(connection.getInputStream());
@@ -191,6 +192,7 @@ class SearchOperation extends AsyncTask<String, Void, String> {
         JSONObject jsonObject = null;
 
         try{
+            // Result, the type of the result of the background computation.
             jsonObject = new JSONObject(s);
             result = jsonObject;
             //CustomListView.;

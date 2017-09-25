@@ -48,6 +48,7 @@ public class CustomListView extends View {
         init();
     }
 
+    // sets how many results should be visible
     public int setN(String N){
         if(N.equals("")){
             listSize = 0;
@@ -71,6 +72,7 @@ public class CustomListView extends View {
         linePaint.setColor(Color.BLUE);
     }
 
+    // adding and drwing the search results in the list
     public void onDraw(Canvas canvas){
         super.onDraw(canvas);
         int itemHeight = 100;
@@ -119,6 +121,7 @@ public class CustomListView extends View {
         invalidate();
     }
 
+    //if item is tuched in the list, set the search field to its name
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.d("tag", "event" + event);

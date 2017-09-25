@@ -16,7 +16,7 @@
 
     <com.example.erik.lab_3.InteractiveSearch
         android:id="@+id/searchBar"
-        android:hint="Sök för fan"
+        android:hint="Sök här"
         android:layout_alignRight="@+id/editText"
         android:layout_alignEnd="@+id/editText"
         android:layout_height="wrap_content"
