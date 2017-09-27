@@ -72,7 +72,7 @@ public class CustomListView extends View {
         linePaint.setColor(Color.BLUE);
     }
 
-    // adding and drwing the search results in the list
+    // adding and drawing the search results in the list
     public void onDraw(Canvas canvas){
         super.onDraw(canvas);
         int itemHeight = 100;
@@ -116,6 +116,8 @@ public class CustomListView extends View {
 
     }
 
+    //gets dadata from the search result in an array and stores it in a list in the UI
+    //using mData
     public void populate(String[] tempArr){
         mData = tempArr;
         invalidate();

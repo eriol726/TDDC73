@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 colorAdapter.setSelectedChildIndex(500);
                 Log.d("tag", "cant close: " );
             }
-        });*/
+        });
        Exp_list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
@@ -61,36 +61,41 @@ public class MainActivity extends AppCompatActivity {
                 path = "/" + Colors_list.get(groupPosition) + "/" ;
                 //editText.setText(path);
                 expanded = Exp_list.isGroupExpanded(groupPosition);
-               /* if(!Exp_list.isGroupExpanded(groupPosition)){
+                if(!Exp_list.isGroupExpanded(groupPosition)){
                     editText.setText(path);
                 }
                 else{
 
-                }*/
+                }
                 Log.d("tag", "cant close: " );
                 return false;
             }
         });
 
+*/
 
 
-/*
         Exp_list.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
             @Override
             public void onGroupCollapse(int groupPosition) {
                 //Deselect selected item in ListView
                 expanded = Exp_list.isGroupExpanded(groupPosition);
                 colorAdapter.setGroupIndex(groupPosition);
-                colorAdapter.setSelectedChildIndex(500);
+                //colorAdapter.setSelectedChildIndex(500);
                 //Exp_list.clearChoices();
                 //colorAdapter.notifyDataSetChanged();
-                //Log.d("tag", "expanded: " + expanded );
-               String path2 = "/h" ;
-               //editText.setText(path2);
+                Log.d("tag", "expanded: " + expanded );
+
+                if(!editText.getText().toString().equals("/")){
+                    String path2 = "/" ;
+                    editText.setText(path2);
+                    editText.setSelection(editText.getText().length());
+                }
+
 
 
             }
-        });*/
+        });
 
         Exp_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -181,7 +186,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         for(String category:Colors_list){
-            if( tempTextToSearch.equals("/") || tempTextToSearch.equals("")){
+            if(  tempTextToSearch.equals("") || tempTextToSearch.equals("/")  ){
+                //Exp_list.collapseGroup(0);
                 collapseAll();
                 flag = true;
             }
@@ -190,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             if (category.contains(parent)  ) {
                 flag = true;
                 if (category.equals(parent)) {
-                    collapseAll();
+                    //collapseAll();
 
                     Log.d("tag", "in first loop: " + Colors_list.indexOf(category));
                     if(!Exp_list.isGroupExpanded(Colors_list.indexOf(category))){
@@ -199,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
                         expanded = true;
                     }else{
-                        Exp_list.collapseGroup(Colors_list.indexOf(category));
+                        //Exp_list.collapseGroup(Colors_list.indexOf(category));
                     }
 
                    //String path =  "/" + Colors_list.get(categoryIndex) + "/" ;
@@ -255,8 +261,12 @@ public class MainActivity extends AppCompatActivity {
         return flag;
     }
     public void collapseAll(){
-        for(int i= 0; i < Colors_list.size(); i++)
+        for(int i= 0; i < Colors_list.size(); i++){
             Exp_list.collapseGroup(i);
-            colorAdapter.setSelectedChildIndex(500);
+            //
+            Log.d("tag", "Size: " + Colors_list.size());
+        }
+        colorAdapter.setGroupIndex(500);
+        colorAdapter.setSelectedChildIndex(500);
     }
 }

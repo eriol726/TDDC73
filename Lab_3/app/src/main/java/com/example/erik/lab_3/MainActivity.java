@@ -66,14 +66,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                //obtain connection
+
                 SearchOperation searchOperation = new SearchOperation(new SearchInterface() {
+                    // runs on onPostExecute
                     @Override
                     public void setResults(JSONObject result) {
 
                         try {
                             id = result.getInt("id");
                             JSONArray name = result.getJSONArray("result");
+                            // separates all result name from the JSON-request into an add it into an array
                             resultArray = name.join(",").replaceAll("\"","").split(",");
                             customListView.setN(editN.getText().toString());
                             Log.d("tag", "id: " + id);
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 });
+                // everything in AsyncTask is executed
                 searchOperation.execute("http://flask-afteach.rhcloud.com/getnames/" + id + "/" + s);
 
             }
@@ -148,7 +151,7 @@ class SearchOperation extends AsyncTask<String, Void, String> {
     public SearchOperation(SearchInterface listener){
         this.listener = listener;
     }
-
+    // background thread
     @Override
     protected String doInBackground(String... params) {
 
@@ -158,14 +161,17 @@ class SearchOperation extends AsyncTask<String, Void, String> {
 
         String strFileContents = "";
         // https://www.youtube.com/watch?v=iTBnuCYeq3E
+        // https://www.youtube.com/watch?v=5HDr9FdGIVg&t=103s
+        //obtain connection
         try{
-            // Params, the type of the parameters sent to the task upon execution.
+            // Params is the name download URL from SetResult, the type of the parameters sent to the task upon execution.
             url = new URL(params[0]);
             connection = (HttpURLConnection) url.openConnection();
             inputStream = new BufferedInputStream(connection.getInputStream());
-
+            // we dont want to tread bytes one by one, creates an 1024 byte buffer instead
             int bytesRead = -1;
             byte[] buffer = new byte[1024];
+            // as loga as inputStream is not -1 there is something to read
             while((bytesRead = inputStream.read(buffer)) != -1){
                 strFileContents += new String(buffer,0,bytesRead);
                 //Log.d("tag", "String: " + strFileContents);
@@ -178,13 +184,15 @@ class SearchOperation extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         }finally {
             if(connection != null){
+                // to save resources
                 connection.disconnect();
             }
         }
-
+        Log.d("tag", "strFileContents: " + strFileContents);
+        //returns the whole array containing all names that matches the search characters
         return strFileContents;
     }
-
+    // main thread when everything is over
     @Override
     protected void onPostExecute(String s) {
 
