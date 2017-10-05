@@ -1,7 +1,12 @@
 package com.example.erik.accountregistration2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.EventLog;
+import android.util.EventLog.Event;
+import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +17,7 @@ import java.util.List;
  * has to be created and a new state in AlgorithmFactory
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  MyListener  {
 
 
     FormVisualizer formVisualizer;
@@ -22,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         formVisualizer = (FormVisualizer) findViewById(R.id.FormVisualizer);
-
+        MyButton m = new MyButton(this);
 
 
         List<AccountParameter> params = new ArrayList<AccountParameter>();
@@ -33,8 +38,23 @@ public class MainActivity extends AppCompatActivity {
         params.add(new AccountParameter("Password"));
         formVisualizer.setLayout(params);
 
-
         formVisualizer.addSubmitButton("Submit");
 
+
+        //FormVisualizer formVisualizer2 = new FormVisualizer(getApplicationContext());
+        Log.d("tag", formVisualizer.submitButton.getText().toString());
+        formVisualizer.getResponseMessage();
+
+        //Log.d("tag", "Acc:  " + formVisualizer.accountRegistration.accountParameters.get(0).getName().toString());
+
+    }
+
+
+
+    @Override
+    public boolean callback(MyButton view, String result) {
+
+        Log.d("tag", result);
+        return true;
     }
 }

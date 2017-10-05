@@ -2,12 +2,17 @@ package com.example.erik.accountregistration2;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.drm.DrmEvent;
+import android.drm.DrmManagerClient;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.erik.accountregistration2.Algorithm.AlgorithmFactory;
@@ -27,19 +32,31 @@ import java.util.List;
  * The fieldValidation function validates the user inputs for the Account
  */
 
-public class FormVisualizer extends LinearLayout {
+public class FormVisualizer extends LinearLayout implements  MyListener {
 
     LinearLayout formLinearLayout;
     Button submitButton;
+    OnClickListener mCorkyListener ;
 
     EditText textView;
-
+    boolean status;
+    private TextView responseField;
 
     List<AccountParameter> params;
     List<TextFieldInput> textFieldInput;
+    AccountRegistration accountRegistration;
 
     private ArrayList<EditText> textFileds;
     private PasswordStrengthBar ps;
+
+    private Context context;
+    MyButton m = new MyButton(this);
+
+    //AccountStatus callback;
+    AccountListener accountListener;
+    private DrmManagerClient.OnEventListener mOnEventListener;
+    private DrmManagerClient eventResult;
+    private DrmEvent event;
 
 
     public FormVisualizer(Context context) {
@@ -57,30 +74,74 @@ public class FormVisualizer extends LinearLayout {
     }
 
     public void init(Context context){
+        this.context = context;
 
         textFileds = new ArrayList<EditText>();
 
         ps = new PasswordStrengthBar(getContext());
 
+        accountRegistration = new AccountRegistration(context, params);
 
         formLinearLayout = (LinearLayout)findViewById(R.id.FormVisualizer);
         formLinearLayout.setOrientation(LinearLayout.VERTICAL);
     }
 
+
+
     public void addSubmitButton(String buttonLabel){
         submitButton = new Button(getContext());
         submitButton.setText(buttonLabel);
 
-        submitButton.setOnClickListener(new OnClickListener() {
+
+
+
+
+
+        formLinearLayout.addView(submitButton);
+
+    }
+
+
+
+    public void setOnEventListener(DrmManagerClient.OnEventListener listener) {
+        mOnEventListener = listener;
+    }
+
+
+    public void doEvent() {
+        /*
+         * code code code
+         */
+
+
+        // and in the end
+        if (mOnEventListener != null)
+            mOnEventListener.onEvent(eventResult,event); // event result object :)
+
+    }
+
+    public boolean getResponseMessage(){
+
+        submitButton.setOnClickListener(mCorkyListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("tag", "click");
-                fieldValidation();
+
+
+
+                status = fieldValidation();
+
+                if(status){
+                    accountRegistration.createAccount();
+                    m.MyLogicToIntimateOthere();
+                }
+
             }
         });
 
-        formLinearLayout.addView(submitButton);
+        return status;
     }
+
 
 
     public void addPasswordFiled(String hint){
@@ -91,7 +152,7 @@ public class FormVisualizer extends LinearLayout {
         formLinearLayout.addView(passwordHolder);
     }
 
-    public void fieldValidation(){
+    public boolean fieldValidation(){
 
         boolean validPassword = ps.isValidPasswordField();
 
@@ -119,6 +180,7 @@ public class FormVisualizer extends LinearLayout {
 
             Toast.makeText(getContext(), "User is registered",
                     Toast.LENGTH_LONG).show();
+            return true;
         }
 
         else if (blankFields){
@@ -155,6 +217,7 @@ public class FormVisualizer extends LinearLayout {
                     .show();
 
         }
+        return false;
     }
 
 
@@ -212,5 +275,13 @@ public class FormVisualizer extends LinearLayout {
 
 
 
+    }
+
+
+
+    @Override
+    public boolean callback(MyButton view, String result) {
+        Log.d("tag", result);
+        return true;
     }
 }
